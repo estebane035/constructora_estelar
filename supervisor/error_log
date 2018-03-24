@@ -1,0 +1,5 @@
+[04-Feb-2018 17:41:22 America/Monterrey] PHP Notice:  Undefined index: tipousuario in /home1/estel335/public_html/estelar/includes/header.php on line 4
+[04-Feb-2018 17:41:22 America/Monterrey] PHP Notice:  Undefined index: tipousuario in /home1/estel335/public_html/estelar/includes/header.php on line 19
+[04-Feb-2018 17:41:22 America/Monterrey] PHP Notice:  Undefined index: tipousuario in /home1/estel335/public_html/estelar/includes/header.php on line 27
+[04-Feb-2018 17:41:22 America/Monterrey] PHP Notice:  Undefined index: tipousuario in /home1/estel335/public_html/estelar/includes/header.php on line 34
+[04-Feb-2018 17:41:22 America/Monterrey] PHP Notice:  Undefined variable: row_nombre_usuario in /home1/estel335/public_html/estelar/includes/sesionusuario.php on line 3

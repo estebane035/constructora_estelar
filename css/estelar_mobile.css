@@ -1,0 +1,52 @@
+/* CSS Document */
+#holder{position:absolute; width:100%; margin:0 auto; height:auto; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;}
+hmtl, body, #holder{ height:100%; width:100%; margin:0 auto; font-size:12px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;} 
+
+/*index inicial*/
+#holderindex{ height:100%; width:100%; margin:0 auto;}
+#centralindex{position:absolute; width:100%; height:100%; margin-top:200px;}
+#imagen_estelar{ width:80%; height:300px; margin:0 auto; background-image:url(../logos/estelar_n.png); background-size:contain; background-repeat:no-repeat}
+#acceso_usuario{ width:500px; height:200px; margin:0 auto;}
+
+#header{ height:20%; width:100%;}
+#central_exterior{ height:auto; min-height:80%; width:97%; min-width:97%px; background:#fff; margin:0 auto; border:2px solid #333; border-radius:5px; margin-top:3px; margin-bottom:50px;}
+#central{ margin-left:40px; padding-bottom:50px;}
+
+#menulogo{ height:80%; width:100%; float:left;}
+	#menu{ height:100%; width:79%;  float:left;}
+	#logo{ height:100%; width:20%; float:right;}
+
+#sesionusuario{ height:19%; width:100%; }
+	#nombreusuario{ float:left; margin-left:40px;}
+	#divcerrarsesion{ float:right; margin-right:40px;}
+.sing_out{ color:#03C; font-weight:bold; letter-spacing:2px; text-transform:uppercase; font-size:24px}
+.nombreusuario{color:#03C; font-weight:bold; letter-spacing:2px; text-transform:uppercase; font-size:24px}
+
+#menu_titulo{width:100%; height:35px; background:#ddd; border-bottom:1px solid #bbb;}
+.menutd{border: 3px solid #666; border-radius:8px; padding:5px 15px 5px 15px; background:#666;font-size:40px}
+.menu_a{text-decoration:none; font-size:100%; color:#fff}
+
+#tablapadding5center th{ padding-left:5px; padding-right:5px; background:#333333; color:#fff;}
+#tablapadding5center td{ padding-left:5px; padding-right:5px; text-align:center}
+
+#tablapadding5 th{ padding-left:5px; padding-right:5px;}
+#tablapadding5 td{ padding-left:5px; padding-right:5px;}
+#table_notificacions td{font-size:30px; padding:15px}
+
+.titulopagina{ font-size:24px}
+
+.cajatexto{ width:400px; height:60px; border:1px solid #000; font-size:35px;}
+#user{width:350px; height:60px; border:1px solid #000; font-size:40px}
+#pass{width:350px; height:60px; border:1px solid #000; font-size:40px}
+#btnacceso{width:400px; height:80px; font-size:50px;}
+.btnsubmit{width:400px; height:80px; font-size:50px;}
+.btnfile{width:300px; height:60; font-size:40px;}
+.negra{ font-weight:bold; font-size:35px}
+.negra2{ font-weight:bold; font-size:50px}
+.valor{font-size:30px}
+.shownotifications{font-size:35px;}
+.subtitulo{font-size:18px}
+.separador{ clear:both; height:30px}
+
+.cursor{ cursor:pointer}
+.radio{ size:30px}
