@@ -14,6 +14,8 @@ function guardar_proyecto()
 	if(document.getElementById('constructoras').selectedIndex==0){c++;}
 	if(!document.getElementById('fechainicio').value){c++;}
 	if(!document.getElementById('fechatermino').value){c++;}
+	if(!document.getElementById('lat').value){c++;}
+	if(!document.getElementById('lng').value){c++;}
 	
 	if(c==0)
 	{ document.newprojectform.submit();	}

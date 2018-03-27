@@ -17,6 +17,52 @@ $titulo="NEW PROJECT";
 <!DOCTYPE>
 <html>
 <head>
+    <style>
+      .controls {
+        margin-top: 10px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 300px;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+
+      .pac-container {
+        font-family: Roboto;
+      }
+
+      #type-selector {
+        color: #fff;
+        background-color: #4d90fe;
+        padding: 5px 11px 0px 11px;
+      }
+
+      #type-selector label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+      #target {
+        width: 345px;
+      }
+    </style>
 <meta charset="iso-8859-1" />
 <title>New Project</title>
 <link href="../css/estelar.css" rel="stylesheet" type="text/css">
@@ -48,6 +94,15 @@ $titulo="NEW PROJECT";
         <tr><td class="negra">Start Date</td><td><input type="text" class="fechas" name="fechainicio" id="fechainicio" size="9"></td></tr>
         <tr><td class="negra">Finish Date</td><td><input type="text" class="fechas" name="fechatermino" id="fechatermino" size="9"></td></tr>                        
     </table><br><br>
+
+    <table>
+        <tr><td>LOCATION</td></tr>
+    </table>
+    <hr style="width:700px;" align="left" color="#666666">
+
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    <div id="mapa" style="height: 400px;width: 700px;"></div><br><br>
+
     <table>
     	<tr><td>WORKS TO DO</td></tr>
     </table>
@@ -60,6 +115,8 @@ $titulo="NEW PROJECT";
     <table>
     	<tr><td><input type="button" value="Save" onClick="guardar_proyecto()"></td></tr>
     </table>
+    <input type="hidden" name="lat" id="lat">
+    <input type="hidden" name="lng" id="lng">
     </form>
     </div><!--div central-->
     <div style="clear:both"></div>
@@ -70,8 +127,10 @@ $titulo="NEW PROJECT";
 <script type="text/javascript" src="../scripts/estelar.js"></script>
 <script type="text/javascript" src="js/project_ajax.js"></script>
 <script type="text/javascript" src="js/project.js"></script>
+<script type="text/javascript" src="js/mapa.js"></script>
 <script type="text/javascript" src="../scripts/jquery-1.12.4.js"></script>
 <script type="text/javascript" src="../scripts/jquery-ui.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-Oq-WHG-knSvcEN8vdKDkWWPfERDV6TA&libraries=places&callback=initAutocomplete" async defer></script>
 <script>
   $( function() {
     $( ".fechas" ).datepicker();

@@ -10,7 +10,6 @@ $contratista=isset($_POST['contratista'])?$_POST['contratista']:NULL;
 $trabajador=isset($_POST['trabajador'])?$_POST['trabajador']:NULL;
 $contacto=isset($_POST['contactos'])?$_POST['contactos']:NULL;
 
-
 mysql_query("insert into proyectos_actividades_temporal(idusuario,actividad,idtrabajador,idcontratista) values('".$_SESSION['idusuario']."','".mysql_real_escape_string($descripcion)."','".$trabajador."','".$contratista."')",$conexionestelar) or die(mysql_error());
 $idpat=mysql_insert_id();
 
