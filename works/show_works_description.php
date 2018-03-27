@@ -10,7 +10,7 @@ $idwork=isset($_GET['idwork'])?$_GET['idwork']:NULL;
 $_SESSION['idwork']=$idwork;
 
 //OBTIENE DATOS DEL TRABAJO
-	$datos_trabajo=mysql_query("select proyectos.nombre,proyectos.idconstructora,actividad FROM proyectos_actividades INNER JOIN proyectos ON proyectos_actividades.idproyecto=proyectos.idproyecto WHERE proyectos_actividades.idpat='".$idwork."' limit 0,1 ",$conexionestelar) or die(mysql_error());
+	$datos_trabajo=mysql_query("select proyectos.idproyecto, proyectos.nombre,proyectos.idconstructora,actividad FROM proyectos_actividades INNER JOIN proyectos ON proyectos_actividades.idproyecto=proyectos.idproyecto WHERE proyectos_actividades.idpat='".$idwork."' limit 0,1 ",$conexionestelar) or die(mysql_error());
 	$row_datos_trabajo=mysql_fetch_assoc($datos_trabajo);
 
 //OBTIENE DATOS DE LA CONTRUCTORA
@@ -30,6 +30,14 @@ $_SESSION['idwork']=$idwork;
 //OBTIENE NOMBRE DE LA ACTIVIDAD ASIGNADA
 	$actividad=mysql_query("select work from cat_works where idwork='".$row_datos_trabajo['actividad']."' limit 0,1 ",$conexionestelar) or die(mysql_error());
 	$row_actividad=mysql_fetch_assoc($actividad);
+
+	$consulta = "SELECT * FROM payroll WHERE id_trabajador = ".$_SESSION['idusuario']." AND DATE_FORMAT(check_in, '%Y-%c-%d') = DATE_FORMAT(now(), '%Y-%c-%d')";
+	$payroll = mysql_query($consulta);
+	if(mysql_num_rows($payroll)!=0)
+		$exist = true;
+	else
+		$exist = false;
+	$payroll = mysql_fetch_assoc($payroll);
 
 
 $titulo="PROJECT SELECTED";
@@ -66,9 +74,7 @@ else
 </table>
 <table style="margin-top:15px">
 	<tr>
-		<td class="btn_checkin"><a href="#" class="btn_text">Check In</a></td>
-		<td width="100px"></td>
-		<td class="btn_checkout"><a href="#" class="btn_text">Check Out</a></td>
+		<td class="btn_check" id="check"><a id="text_check" href="#" onclick="check(<?php echo $row_datos_trabajo['idproyecto'].', '.$_SESSION['idusuario'] ?>);" class="btn_text">Check In</a></td>
 	</tr>
 </table>
 <br><br>
@@ -101,6 +107,16 @@ else
 	<?php }while($row_cat_notificaciones=mysql_fetch_assoc($cat_notificaciones));?>
 </table><br><br>
 </form>
+<input type="hidden" id="check_state" name="check_state" value="<?php
+		if($exist){
+			if(empty($payroll['check_out']))
+				echo '1';
+			else
+				echo '2';
+		}
+		else
+			echo '0';
+?>">
 </div><!--div main notifications-->
 <!--	<div id="div_imagen">
 	 <form method="post" id="formulario" enctype="multipart/form-data">
