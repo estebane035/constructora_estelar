@@ -13,7 +13,7 @@ $(document).ready(function() {
 			$('#check').css("background", "#8AE943");
 			$('#check').css("border", "3px solid #8AE943");
 			$('#text_check').text("Check In");
-			$('#text_check').prop('onclick',null).off('click');
+			//$('#text_check').prop('onclick',null).off('click');
 			break;
 	}
 });
@@ -133,7 +133,7 @@ function check(id_proyecto, id_trabajador){
 					$('#check').css("background", "#8AE943");
 					$('#check').css("border", "3px solid #8AE943");
 					$('#text_check').text("Check In");
-					$('#text_check').prop('onclick',null).off('click');
+					//$('#text_check').prop('onclick',null).off('click');
 					break;
 				case "3":
 					alert("Ya se ha registrado la salida");
