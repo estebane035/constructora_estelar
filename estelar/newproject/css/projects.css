@@ -1,0 +1,17 @@
+/* CSS Document */
+#div_detalle{float:left}
+#div_notificacion{float:left; padding-left:30px;}
+
+/*detail_project*/
+.div_actividades{ float:left; margin-left:20px}
+
+/*index.php*/
+#divdescripcion{ float:left; margin-left:20px}
+#divcontratista{ float:left; margin-left:20px}
+#divtrabajadores{ float:left; margin-left:20px;}
+
+/*notifications.php*/
+#detalle_notificaciones{ float:left}
+/*notificaciones.php - accionesajax/detalle_notificaciones_ajax.php */
+#notificaciones_trabajador{ float:left}
+#notificaciones_proyecto{ float:left; margin-left:20px;}

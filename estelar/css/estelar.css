@@ -1,0 +1,40 @@
+/* CSS Document */
+#holder{position:absolute; width:100%; margin:0 auto; height:auto; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;}
+hmtl, body, #holder{ height:100%; width:100%; margin:0 auto; font-size:12px; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;} 
+
+/*index inicial*/
+#holderindex{ height:100%; width:900px; margin:0 auto;}
+#centralindex{position:absolute; width:900px; height:400px; margin-top:200px;}
+#imagen_estelar{ width:500px; height:200px; margin:0 auto; background-image:url(../logos/estelar_n.png); background-size:contain; background-repeat:no-repeat;}
+#acceso_usuario{ width:500px; height:200px; margin:0 auto;}
+
+
+#header{ height:13%; width:100%;}
+#central_exterior{ height:auto; min-height:500px; width:97%; min-width:900px; background:#fff; margin:0 auto; border:2px solid #333; border-radius:5px; margin-top:3px; margin-bottom:50px;}
+#central{ margin-left:40px; padding-bottom:50px;}
+
+#menulogo{ height:80%; width:100%; float:left;}
+	#menu{ height:100%; width:85%;  float:left;}
+	#logo{ height:100%; width:14%; float:right;}
+
+#sesionusuario{ height:19%; width:100%; }
+	#nombreusuario{ float:left; margin-left:40px;}
+	#divcerrarsesion{ float:right; margin-right:40px;}
+.sing_out{ color:#03C; font-weight:bold; letter-spacing:2px; text-transform:uppercase}
+.nombreusuario{color:#03C; font-weight:bold; letter-spacing:2px; text-transform:uppercase}
+
+#menu_titulo{width:100%; height:35px; background:#ddd; border-bottom:1px solid #bbb}
+.menutd{border: 3px solid #666; border-radius:8px; padding:5px 15px 5px 15px; background:#666;}
+.menu_a{text-decoration:none; font-size:100%; color:#fff}
+
+#tablapadding5center th{ padding-left:5px; padding-right:5px; background:#333333; color:#fff;}
+#tablapadding5center td{ padding-left:5px; padding-right:5px; text-align:center}
+
+#tablapadding5 th{ padding-left:5px; padding-right:5px;}
+#tablapadding5 td{ padding-left:5px; padding-right:5px;}
+
+.titulopagina{ font-size:20px}
+.negra{ font-weight:bold;}
+.subtitulo{font-size:18px}
+
+.cursor{ cursor:pointer}
