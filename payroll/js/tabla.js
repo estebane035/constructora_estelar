@@ -1,8 +1,15 @@
 $(document).ready( function () {
+    var from = "2018-03-16 00:00:00";
+    var to = "2018-03-31 23:59:59";
     var table = $('#table_payroll').DataTable({
       ajax: {
         url : 'load_table.php',
-        dataSrc : ''
+        type : 'POST',
+        dataSrc : '',
+        data : {
+          from : from,
+          to : to
+        }
       },
       columns: [
         { data : 'id' },
@@ -31,6 +38,7 @@ $(document).ready( function () {
           info: "P&aacutegina _PAGE_ of _PAGES_",
           infoEmpty: "No hay registros",
           sSearch: "Buscar:",
-      }
+      },
+       "order": [[ 3, "desc" ]]
     });
 });
