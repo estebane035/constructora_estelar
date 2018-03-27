@@ -17,10 +17,10 @@ $_SESSION['idwork']=$idwork;
 	$datos_constructora=mysql_query("select nombre from constructoras where idconstructora='".$row_datos_trabajo['idconstructora']."' limit 0,1 ",$conexionestelar) or die(mysql_error());
 	$row_datos_constructora=mysql_fetch_assoc($datos_constructora);
 
-//OBTIENE LISTADO DE NOTIFICACIONES	
+//OBTIENE LISTADO DE NOTIFICACIONES
 	$cat_notificaciones=mysql_query("select idnotificacion,notificacion,idtiponotificacion,idnp from cat_notificaciones where activo=1 order by idnp,idtiponotificacion",$conexionestelar) or die(mysql_error());
 	$row_cat_notificaciones=mysql_fetch_assoc($cat_notificaciones);
-//obtiene notificaciones principales	
+//obtiene notificaciones principales
 	$notificaciones_principales=mysql_query("select idnp,count(idnp) as total from cat_notificaciones where activo=1 group by idnp",$conexionestelar) or die(mysql_error());
 	$row_notificaciones_principales=mysql_fetch_assoc($notificaciones_principales);
 	$a_not_principal[]="";
@@ -38,7 +38,7 @@ $titulo="PROJECT SELECTED";
 <html>
 <head>
 <meta charset="iso-8859-1" /><title>Show Work Description</title>
-<?php 
+<?php
 $detect=new Mobile_Detect();
 if($detect->isMobile()||$detect->isTablet())
 {?>
@@ -47,7 +47,7 @@ if($detect->isMobile()||$detect->isTablet())
 else
 {?>
 <link href="../css/estelar.css" rel="stylesheet" type="text/css">
-<?php	
+<?php
 }?>
 </head>
 <body>
@@ -57,12 +57,19 @@ else
     </div>
     <div style="clear:both"></div>
     <div id="central_exterior">
-	<?php include("../includes/menutitulo.php");?>    
+	<?php include("../includes/menutitulo.php");?>
     <div id="central">
 <table id="tablapadding5">
 	<tr><td class="negra">Project</td><td class="valor"><?php echo $row_datos_trabajo['nombre']?></td></tr>
     <tr><td class="negra">Constructor</td><td class="valor"><?php echo $row_datos_constructora['nombre']?></td></tr>
     <tr><td class="negra">Do</td><td class="valor"><?php echo $row_actividad['work']?></td></tr>
+</table>
+<table style="margin-top:15px">
+	<tr>
+		<td class="btn_checkin"><a href="#" class="btn_text">Check In</a></td>
+		<td width="100px"></td>
+		<td class="btn_checkout"><a href="#" class="btn_text">Check Out</a></td>
+	</tr>
 </table>
 <br><br>
 <div id="main_notifications">
@@ -84,7 +91,7 @@ else
 						{?>
     	                <td><input class="radio" type="radio" name="notificacion" value="<?php echo $row_cat_notificaciones['idnotificacion']?>" onClick="notificacion_seleccionada(<?php echo $row_cat_notificaciones['idnotificacion']?>,<?php echo $idwork?>)"></td>
         	        	<td onClick="notificacion_seleccionada(<?php echo $row_cat_notificaciones['idnotificacion']?>,<?php echo $idwork?>)"><?php echo $row_cat_notificaciones['notificacion']?></td>
-              <?php 	} 
+              <?php 	}
 			  			else // si la notificacion es secundaria, pone celda vacia a la izquierda
 						{ ?>
 			  			<td></td>
