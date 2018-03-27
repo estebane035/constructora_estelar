@@ -13,6 +13,7 @@
         	            <td class="menutd"><a href="../configuration/new_work.php"  class="menu_a">Works</a></td>
             	        <td class="menutd"><a href="../configuration/workers_contact.php"  class="menu_a">Worker Contact</a></td>
                         <td class="menutd"><a href="../configuration/cat_notifications.php"  class="menu_a">Notifications List</a></td>
+                        <td class="menutd"><a href="../payroll/"  class="menu_a">Payroll</a></td>
 	                </tr>
     	        </table>
 		<?php	}
