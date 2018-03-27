@@ -8,7 +8,7 @@ mysql_select_db($database_conexionestelar,$conexionestelar);
 $idproject=isset($_GET['idp'])?$_GET['idp']:NULL;
 
 //Obtiene datos del proyecto
-	$datos_proyecto=mysql_query("select nombre,descripcion,fechainicio,fechatermino,idconstructora,status from proyectos where idproyecto='".$idproject."' limit 0,1 ",$conexionestelar) or die(mysql_error());
+	$datos_proyecto=mysql_query("select nombre,descripcion,fechainicio,fechatermino,idconstructora,status,latitud,longitud from proyectos where idproyecto='".$idproject."' limit 0,1 ",$conexionestelar) or die(mysql_error());
 	$row_datos_proyecto=mysql_fetch_assoc($datos_proyecto);
 //obtiene nombre de constructora
 	$constructora=mysql_query("select idconstructora,nombre from constructoras where idconstructora='".$row_datos_proyecto['idconstructora']."' limit 0,1 ",$conexionestelar) or die(mysql_error());
@@ -117,6 +117,12 @@ $titulo="PROJECT DETAIL";
     	</table>
     </form>    
     <br>
+    <table>
+    	<tr><td class="subtitulo">Location (drag to update)</td></tr>
+    </table>
+    <hr style="width:700px;" align="left" color="#666666"><br>
+    <div id="mapa" style="height: 400px;width: 700px;"></div>
+    <br>
     <?php if(mysql_num_rows($lista_actividades))
 	{	?><br>
 		<table>
@@ -183,7 +189,12 @@ $titulo="PROJECT DETAIL";
     <div style="clear:both"></div>
     </div><!--div central_exterior-->
     <div style="clear:both"></div>
+    <input type="hidden" id="lat" value="<?php echo $row_datos_proyecto['latitud']?>">
+    <input type="hidden" id="lng" value="<?php echo $row_datos_proyecto['longitud']?>">
+    <input type="hidden" id="id_proyecto" value="<?php echo $idproject?>">
   </div> <!--div holder-->    
 </body>
 <script type="text/javascript" src="js/project_ajax.js"></script>
+<script type="text/javascript" src="js/mapa_project_detail.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-Oq-WHG-knSvcEN8vdKDkWWPfERDV6TA&callback=initMap" async defer></script>
 </html>
