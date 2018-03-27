@@ -8,7 +8,7 @@ mysql_select_db($database_conexionbase,$conexionbase);
 
 $idusr=isset($_GET['idusr'])?$_GET['idusr']:NULL;
 //OBTIENE CUENTAS GUARDADAS
-	$cuenta=mysql_query("select usuarios.idusuario,nombre,idtipousuario,usuario,password,usuarios.activo from usuarios INNER JOIN cuentas ON usuarios.idusuario=cuentas.idusuario WHERE usuarios.idusuario='".$idusr."' LIMIT 0,1 ",$conexionbase) or die(mysql_error());
+	$cuenta=mysql_query("select usuarios.idusuario,nombre,idtipousuario,usuario,password,usuarios.activo, pago from usuarios INNER JOIN cuentas ON usuarios.idusuario=cuentas.idusuario WHERE usuarios.idusuario='".$idusr."' LIMIT 0,1 ",$conexionbase) or die(mysql_error());
 	$row_cuenta=mysql_fetch_assoc($cuenta);
 //OBTIENE LISTA DE TIPOS DE USUARIOS
 	$lista_tipousuarios=mysql_query("select idtipousuario,tipousuario from tipos_usuarios where activo=1",$conexionbase) or die(mysql_error());
@@ -41,7 +41,7 @@ $titulo="EDIT USER";
 	<tr><td>Name</td><td><input type="text" name="name" id="name" value="<?php echo $row_cuenta['nombre']?>"></td></tr>
     <tr><td>User</td><td><input type="text" name="user" id="user" value="<?php echo $row_cuenta['usuario']?>"></td></tr>
     <tr><td>Password</td><td><input type="text" name="password" id="password" value="<?php echo $row_cuenta['password']?>"></td></tr>
-    <tr><td>Type</td><td><select name="type" id="type">
+    <tr><td>Type</td><td><select name="type" id="type" onchange="cambioTipoEdit(this.value)">
     						<option value="0"></option>
                             <?php foreach($a_tipousuario as $key=>$valor)
 							{ $seledted="";
@@ -49,6 +49,7 @@ $titulo="EDIT USER";
                             	<option value="<?php echo $key?>" <?php echo $seledted?>><?php echo $valor?></option>
                             <?php }?>
     					 </select></td></tr>
+    <tr id="tr-salario" <?php if ($row_cuenta['idtipousuario'] != '3') echo "style='display:none;'" ?>><td>Salary</td><td><input type="number" name="salario" id="salario" value="<?php echo $row_cuenta['pago']?>"></td></tr>
     <tr><td>Active</td><td><select name="active" id="active">
     										<?php foreach($a_activo as $key=>$valor)
 											{ $selected="";
@@ -71,4 +72,5 @@ $titulo="EDIT USER";
 
 </body>
 <script type="text/javascript" src="scripts/configuration.js"></script>
+<script type="text/javascript" src="scripts/users.js"></script>
 </html>

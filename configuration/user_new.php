@@ -40,13 +40,15 @@ $titulo="NEW USER";
 	<tr><td>Name</td><td><input type="text" name="name" id="name"></td></tr>
     <tr><td>User</td><td><input type="text" name="user" id="user"></td></tr>
     <tr><td>Password</td><td><input type="text" name="password" id="password"></td></tr>
-    <tr><td>Type</td><td><select name="type" id="type">
+    <tr><td>Type</td><td><select name="type" id="type" onchange="cambioTipo(this.value)">
     						<option value="0"></option>
                             <?php foreach($a_tipousuario as $key=>$valor)
 							{?>
                             	<option value="<?php echo $key?>"><?php echo $valor?></option>
                             <?php }?>
     					 </select></td></tr>
+
+    <tr style="display: none;" id="tr-salario"><td>Salary</td><td><input type="number" name="salario" id="salario"></td></tr>
 </table>
 <br>
 <table>
@@ -77,4 +79,5 @@ $titulo="NEW USER";
 
 </body>
 <script type="text/javascript" src="scripts/configuration.js"></script>
+<script type="text/javascript" src="scripts/users.js"></script>
 </html>
