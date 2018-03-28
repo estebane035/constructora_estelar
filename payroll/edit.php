@@ -50,7 +50,13 @@ $row=mysql_fetch_assoc($consulta);
 				<tr><td><input type="submit" value="Update check"></td></tr>
 			</table>
 			<input type="hidden" name="fecha_in" value="<?php echo  $row['fecha_in'] ?>">
-			<input type="hidden" name="fecha_out" value="<?php echo  $row['fecha_out'] ?>">
+			<input type="hidden" name="fecha_out" value="<?php
+				if(isset($row['fecha_out'])){
+					echo $row['fecha_out'];
+				}
+				else{
+					echo  $row['fecha_in'];
+				} ?>">
 			<input type="hidden" name="id" value="<?php echo $row['id']; ?>">
 		</form>
     </div><!--div central-->
