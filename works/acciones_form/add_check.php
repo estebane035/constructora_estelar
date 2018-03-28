@@ -24,7 +24,7 @@
       echo 3;
   }
   else{
-    $consulta = "INSERT INTO payroll (id_proyecto, id_trabajador, check_in) VALUES(".$id_proyecto.", ".$id_trabajador.", now())";
+    $consulta = "INSERT INTO payroll (id_proyecto, id_trabajador, check_in, pago) VALUES(".$id_proyecto.", ".$id_trabajador.", now(), (SELECT pago FROM vista_trabajadores WHERE vista_trabajadores.idusuario = ".$id_trabajador." ))";
     $result = mysql_query($consulta) or die(mysql_error());
     if($result)
       echo 1;
