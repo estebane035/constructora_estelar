@@ -42,3 +42,5 @@ hmtl, body, #holder{ height:100%; width:100%; margin:0 auto; font-size:12px; fon
 .subtitulo{font-size:18px}
 
 .cursor{ cursor:pointer}
+
+.hidden{ display: none; }

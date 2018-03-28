@@ -55,17 +55,29 @@ $titulo="Projects Payroll";
 			            <thead>
 			                <tr>
 			                    <th>ID</th>
-													<th>Project</th>
+			                    <th>Project</th>
 			                    <th>Employee</th>
 			                    <th>Check In</th>
 			                    <th>Check Out</th>
 			                    <th>Total Hrs</th>
+			                    <th>Actions</th>
 			                </tr>
 			            </thead>
 			            <tbody>
 			            </tbody>
 			        </table>
 			    </div>
+			</div>
+
+			<div style="margin-top: 15px;" class="hidden" id="edit">
+				<form>
+					Edit
+				</form>
+			</div>
+
+			<div style="margin-top: 15px;" class="hidden" id="delete">
+				<h1>¿Are you sure you want to delete the check in and check out?</h1>
+				<button id="btn-delete">Delete</button>
 			</div>
     </div><!--div central-->
     <div style="clear:both"></div>

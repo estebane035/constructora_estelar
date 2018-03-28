@@ -15,6 +15,7 @@
   $i=0;
   while($registro = mysql_fetch_assoc($resultado)){
       $filas[$i] = $registro;
+      $filas[$i]["actions"] = "<a href='edit.php?id=".$registro["id"]."'>Edit</a> | <a href='javascript:eliminar(".$registro["id"].");'>Delete</a>";
       $i++;
   }
   print json_encode($filas);

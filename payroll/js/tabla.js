@@ -1,7 +1,8 @@
+var table;
 $(document).ready( function () {
     var from = "2018-03-16 00:00:00";
     var to = "2018-03-31 23:59:59";
-    var table = $('#table_payroll').DataTable({
+    table = $('#table_payroll').DataTable({
       ajax: {
         url : 'load_table.php',
         type : 'POST',
@@ -17,7 +18,8 @@ $(document).ready( function () {
         { data : 'nombre_trabajador' },
         { data : 'check_in' },
         { data : 'check_out' },
-        { data : 'total_horas' }
+        { data : 'total_horas' },
+        { data : 'actions'}
       ],
       columnDefs: [
         {
@@ -42,3 +44,28 @@ $(document).ready( function () {
        "order": [[ 3, "desc" ]]
     });
 });
+
+function eliminar(id)
+{
+  document.getElementById("delete").classList.remove("hidden");
+  document.getElementById("btn-delete").onclick = function(){
+     $.ajax({
+      url: "acciones_ajax/delete_check.php",
+      type: "POST",
+      data: { id: id},
+      success: function(datos)
+      {
+        if (datos == "1")
+        {
+          document.getElementById("delete").classList.add("hidden");
+          document.getElementById("btn-delete").onclick = function(){};
+          table.ajax.reload();
+        }
+        else
+        {
+          alert(datos);
+        }
+      }
+    });
+  };
+}
