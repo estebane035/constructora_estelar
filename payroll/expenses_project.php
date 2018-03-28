@@ -41,41 +41,80 @@ $objPHPExcel->getProperties()
 ->setKeywords("Payroll")
 ->setCategory("Payroll");
 
-// Agregar Informacion
-$objPHPExcel->setActiveSheetIndex(0)
-->setCellValue('A1', 'Valor 1')
-->setCellValue('B1', 'Valor 2')
-->setCellValue('C1', 'Total')
-->setCellValue('A2', '10')
-->setCellValue('C2', '=sum(A2:B2)');
-
-$row = 0; // 1-based index
-$col = 0;
-while($col < 5) {
-	$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($col, $row, $col."-".$row);
-	$col++;
-    $row++;
-}
-
-$objPHPExcel->getActiveSheet()->getStyle('A2')->applyFromArray(
+$row_count = 2;
+//$objPHPExcel->getActiveSheet()->mergeCells("B".$row_count.":E".$row_count);
+$objPHPExcel->getActiveSheet()->mergeCells("B".$row_count.":G".$row_count);
+$objPHPExcel->getActiveSheet()->getStyle("B".$row_count.":G".$row_count)->applyFromArray(
         array(
             'fill' => array(
                 'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                'color' => array('rgb' => 'E05CC2')
-            )
+                'color' => array('rgb' => 'bcbbde')
+            ),
+            'alignment' => array(
+	            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+	        )
         )
 
 );
+$objPHPExcel->getActiveSheet()->setCellValue('B'.$row_count, 'ALL PROJECTS EXPENSES');
+
+$row_count += 2;
+//$objPHPExcel->getActiveSheet()->mergeCells("B".$row_count.":E".$row_count);
+$objPHPExcel->getActiveSheet()->mergeCells("B".$row_count.":C".$row_count);
+$objPHPExcel->getActiveSheet()->getStyle("B".$row_count.":C".$row_count)->applyFromArray(
+        array(
+            'fill' => array(
+                'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                'color' => array('rgb' => 'a9a0a0')
+            ),
+            'alignment' => array(
+	            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+	        )
+        )
+
+);
+$objPHPExcel->getActiveSheet()->setCellValue('B'.$row_count, 'Proyecto 1');
+
+$row_count += 1;
+$objPHPExcel->getActiveSheet()->setCellValue('B'.$row_count, 'Hours:');
+$objPHPExcel->getActiveSheet()->setCellValue('C'.$row_count, '150');
+
+$row_count += 1;
+$objPHPExcel->getActiveSheet()->setCellValue('B'.$row_count, 'Total:');
+$objPHPExcel->getActiveSheet()->setCellValue('C'.$row_count, '$15, 000');
+
+$row_count -=2;
+$objPHPExcel->getActiveSheet()->mergeCells("E".$row_count.":G".$row_count);
+$objPHPExcel->getActiveSheet()->getStyle("E".$row_count.":G".$row_count)->applyFromArray(
+        array(
+            'fill' => array(
+                'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                'color' => array('rgb' => '77e2fb')
+            ),
+            'alignment' => array(
+	            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+	        )
+        )
+);
+$objPHPExcel->getActiveSheet()->setCellValue('E'.$row_count, 'Workers');
+
+for (; $row_count < 15; $row_count++) { 
+	$objPHPExcel->getActiveSheet()->setCellValue('E'.$row_count, 'Worker 1');
+	$objPHPExcel->getActiveSheet()->setCellValue('F'.$row_count, '15 hours');
+	$objPHPExcel->getActiveSheet()->setCellValue('G'.$row_count, '$1, 500');
+}
+
+
 
 // Renombrar Hoja
-$objPHPExcel->getActiveSheet()->setTitle('Tecnologia Simple');
+$objPHPExcel->getActiveSheet()->setTitle('Expenses per project');
 
 // Establecer la hoja activa, para que cuando se abra el documento se muestre primero.
 $objPHPExcel->setActiveSheetIndex(0);
 
 // Se modifican los encabezados del HTTP para indicar que se envia un archivo de Excel.
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="pruebaReal.xlsx"');
+header('Content-Disposition: attachment;filename="expenses.xlsx"');
 header('Cache-Control: max-age=0');
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 $objWriter->save('php://output');
