@@ -9,7 +9,7 @@ $titulo="Edit Check";
 $id = $_GET["id"];
 
 mysql_select_db($database_conexionestelar,$conexionestelar);
-$consulta=mysql_query("SELECT p.id, DATE(p.check_in) as fecha_in, DATE(p.check_out) as fecha_out, TIME(p.check_in) as hora_in, TIME(p.check_out) as hora_out, pr.nombre as nombre_proyecto, v.nombre as nombre_usuario from payroll as p INNER JOIN vista_trabajadores as v ON v.idusuario = p.id_trabajador INNER JOIN proyectos as pr ON pr.idproyecto = p.id_proyecto  where id = ".$id,$conexionestelar) or die(mysql_error());
+$consulta=mysql_query("SELECT p.id, p.pago, DATE(p.check_in) as fecha_in, DATE(p.check_out) as fecha_out, TIME(p.check_in) as hora_in, TIME(p.check_out) as hora_out, pr.nombre as nombre_proyecto, v.nombre as nombre_usuario from payroll as p INNER JOIN vista_trabajadores as v ON v.idusuario = p.id_trabajador INNER JOIN proyectos as pr ON pr.idproyecto = p.id_proyecto  where id = ".$id,$conexionestelar) or die(mysql_error());
 $row=mysql_fetch_assoc($consulta);
 ?>
 <!DOCTYPE>
@@ -43,6 +43,7 @@ $row=mysql_fetch_assoc($consulta);
 			    <tr><td>User</td><td><input type="text" name="user" id="user" disabled="" value="<?php echo $row['nombre_usuario'] ?>"></td></tr>
 			    <tr><td>Check in</td><td><input type="text" class="time" name="check_in" id="check_in" size="9" value="<?php echo $row['hora_in'] ?>"></td></tr>
         		<tr><td>Check out</td><td><input type="text" class="time" name="check_out" id="check_out" size="9" value="<?php echo  $row['hora_out'] ?>"></td></tr>
+        		<tr><td>Pay per hour</td><td><input type="number" name="pago" id="pago" value="<?php echo  $row['pago'] ?>"></td></tr>
 			</table>
 			<br>
 			<table>
