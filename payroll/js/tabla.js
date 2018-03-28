@@ -1,7 +1,7 @@
 var table;
+var from = "2018-03-16 00:00:00";
+var to = "2018-03-31 23:59:59";
 $(document).ready( function () {
-    var from = "2018-03-16 00:00:00";
-    var to = "2018-03-31 23:59:59";
     table = $('#table_payroll').DataTable({
       ajax: {
         url : 'load_table.php',
@@ -68,4 +68,9 @@ function eliminar(id)
       }
     });
   };
+}
+
+function cambiarQuincena(fecha)
+{
+  alert(fecha);
 }

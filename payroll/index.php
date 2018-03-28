@@ -29,10 +29,8 @@ $titulo="Projects Payroll";
 			<table>
 				<tr>
 					<td>
-						<label>Quincena:</label>
-		        <select class="form-control" id="quincena" name="quincena" required onchange="">
-		            <option value="1">16 al 31 de Marzo 2018</option>
-		        </select>
+						<label>Cambiar quincena:</label>
+						<input type="text" class="fechas" name="fecha_actual" onchange="cambiarQuincena(this.value)" id="fecha_actual" size="15" value="<?php echo date("Y/m/d"); ?>">
 					</td>
 					<td width="58%"></td>
 					<td>
@@ -91,6 +89,11 @@ $titulo="Projects Payroll";
 <!--script type="text/javascript" src="../scripts/datatables.min.js"></script-->
 <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="js/tabla.js"></script>
+<script>
+  $( function() {
+    $( ".fechas" ).datepicker();
+  } );
+  </script>
 
 <?php //include("../scripts/scriptfechas.php");?>
 </html>
