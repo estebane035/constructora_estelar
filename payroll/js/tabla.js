@@ -1,15 +1,17 @@
 var table;
-var from = "2018-03-16 00:00:00";
-var to = "2018-03-31 23:59:59";
+var reloaded = false;
 $(document).ready( function () {
+    $('#title').html(changeDays($('#fecha_actual').val()));
     table = $('#table_payroll').DataTable({
       ajax: {
         url : 'load_table.php',
         type : 'POST',
         dataSrc : '',
-        data : {
-          from : from,
-          to : to
+        data : function ( d ) {
+          return $.extend( {}, d, {
+            from : $('#from').val(),
+            to : $('#to').val()
+          });
         }
       },
       columns: [
@@ -72,5 +74,62 @@ function eliminar(id)
 
 function cambiarQuincena(fecha)
 {
-  alert(fecha);
+  $('#title').html(changeDays(fecha));
+  //alert(fecha);
+  //changeDays(fecha);
+}
+
+function changeDays(fecha){
+  var now = new Date(fecha);
+  var day = now.getDate();
+  var date;
+  var array = "Payroll ";
+  var string_to = "";
+  var j = 1;
+  if(day <= 15){
+    $('#from').val(now.getFullYear() + "-" + (now.getMonth() + 1) + "-01 00:00:00");
+    date = new Date(now.getFullYear(), now.getMonth(), 1);
+    array += getWeekDay(date.getDay()) + " " + 1;
+    for(var i = 2; i <= 15; i++, j++){
+      var date = new Date(now.getFullYear(), now.getMonth(), i);
+      if(isValidDay(i + "/" + now.getMonth() + "/" + now.getFullYear())){
+        string_to = getWeekDay(date.getDay()) + " " + i + "\n";
+        $('#to').val(now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + i + " 23:59:59");
+      }
+    }
+    array += " to " + string_to;
+  }
+  else{
+    $('#from').val(now.getFullYear() + "-" + (now.getMonth() + 1) + "-16 00:00:00");
+    date = new Date(now.getFullYear(), now.getMonth(), 16);
+    array += getWeekDay(date.getDay()) + " " + 16;
+    for(var i = 17; i <= 31; i++, j++){
+      var date = new Date(now.getFullYear(), now.getMonth(), i);
+      if(isValidDay(i + "/" + now.getMonth() + "/" + now.getFullYear())){
+        string_to = getWeekDay(date.getDay()) + " " + i + "\n";
+        $('#to').val(now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + i + " 23:59:59");
+      }
+    }
+    array += " to " + string_to;
+  }
+  if(!reloaded)
+    reloaded = true;
+  else
+    table.ajax.reload();
+  return array;
+}
+
+function getWeekDay(weekDay){
+  var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  return week[weekDay];
+}
+
+function isValidDay(date){
+  var bits = date.split('/');
+  var y = bits[2], m = bits[1], d = bits[0];
+  var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  if ((!(y % 4) && y % 100) || !(y % 400)) {
+    daysInMonth[1] = 29;
+  }
+  return !(/\D/.test(String(d))) && d > 0 && d <= daysInMonth[m]
 }

@@ -32,7 +32,7 @@ $titulo="Projects Payroll";
 						<label>Cambiar quincena:</label>
 						<input type="text" class="fechas" name="fecha_actual" onchange="cambiarQuincena(this.value)" id="fecha_actual" size="15" value="<?php echo date("Y/m/d"); ?>">
 					</td>
-					<td width="58%"></td>
+					<td width="58%"><div align="center"><h2 id="title"></h2><div></td>
 					<td>
 						<label>Exportar como:</label>
 		        <select class="form-control" id="tipoTabla" name="tipo_tabla" required onchange="">
@@ -82,6 +82,8 @@ $titulo="Projects Payroll";
 	</div><!--div central_exterior-->
     <div style="clear:both"></div>
   </div> <!--div holder-->
+	<input type="hidden" id="from" value ="">
+	<input type="hidden" id="to" value ="">
 </body>
 <script type="text/javascript" src="../scripts/estelar.js"></script>
 <script type="text/javascript" src="../scripts/jquery-1.12.4.js"></script>
