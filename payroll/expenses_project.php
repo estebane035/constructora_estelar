@@ -22,11 +22,9 @@ require("../conexionbd/conexionestelar.php");
 
 mysql_select_db($database_conexionestelar,$conexionestelar);
 
-$sql = "SELECT p.nombre, SUM(HOUR(pr.total_horas)) as total FROM proyectos as p INNER JOIN payroll as pr ON pr.id_proyecto = p.idproyecto;";
-$sql2 = "SELECT p.nombre, IFNULL((SELECT SUM(HOUR(total_horas)) FROM payroll where id_proyecto = p.idproyecto),0) as total FROM proyectos as p";
-
+$sql = "SELECT p.idproyecto as id, p.nombre, IFNULL((SELECT SUM(HOUR(total_horas)) FROM payroll where id_proyecto = p.idproyecto),0) as horas, IFNULL((SELECT SUM(IFNULL(HOUR(total_horas)*pago,0))  FROM payroll where id_proyecto = p.idproyecto),0) as total FROM proyectos as p";
 $consulta=mysql_query($sql, $conexionestelar) or die(mysql_error());
-$row=mysql_fetch_assoc($consulta);
+$row_proyectos=mysql_fetch_assoc($consulta);
 
 // Crea un nuevo objeto PHPExcel
 $objPHPExcel = new PHPExcel();
@@ -40,6 +38,12 @@ $objPHPExcel->getProperties()
 ->setDescription("All of the expenses per project.")
 ->setKeywords("Payroll")
 ->setCategory("Payroll");
+
+$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(30);
+$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(17);
+$objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(13);
+$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(13);
+$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(13);
 
 $row_count = 2;
 //$objPHPExcel->getActiveSheet()->mergeCells("B".$row_count.":E".$row_count);
@@ -58,51 +62,62 @@ $objPHPExcel->getActiveSheet()->getStyle("B".$row_count.":G".$row_count)->applyF
 );
 $objPHPExcel->getActiveSheet()->setCellValue('B'.$row_count, 'ALL PROJECTS EXPENSES');
 
-$row_count += 2;
-//$objPHPExcel->getActiveSheet()->mergeCells("B".$row_count.":E".$row_count);
-$objPHPExcel->getActiveSheet()->mergeCells("B".$row_count.":C".$row_count);
-$objPHPExcel->getActiveSheet()->getStyle("B".$row_count.":C".$row_count)->applyFromArray(
-        array(
-            'fill' => array(
-                'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                'color' => array('rgb' => 'a9a0a0')
-            ),
-            'alignment' => array(
-	            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+do
+{
+	$row_count += 2;
+	//$objPHPExcel->getActiveSheet()->mergeCells("B".$row_count.":E".$row_count);
+	$objPHPExcel->getActiveSheet()->mergeCells("B".$row_count.":C".$row_count);
+	$objPHPExcel->getActiveSheet()->getStyle("B".$row_count.":C".$row_count)->applyFromArray(
+	        array(
+	            'fill' => array(
+	                'type' => PHPExcel_Style_Fill::FILL_SOLID,
+	                'color' => array('rgb' => 'a9a0a0')
+	            ),
+	            'alignment' => array(
+		            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+		        )
 	        )
-        )
 
-);
-$objPHPExcel->getActiveSheet()->setCellValue('B'.$row_count, 'Proyecto 1');
+	);
+	$objPHPExcel->getActiveSheet()->setCellValue('B'.$row_count, $row_proyectos["nombre"]);
 
-$row_count += 1;
-$objPHPExcel->getActiveSheet()->setCellValue('B'.$row_count, 'Hours:');
-$objPHPExcel->getActiveSheet()->setCellValue('C'.$row_count, '150');
+	$row_count += 1;
+	$objPHPExcel->getActiveSheet()->setCellValue('B'.$row_count, 'Hours:');
+	$objPHPExcel->getActiveSheet()->setCellValue('C'.$row_count, $row_proyectos["horas"]);
 
-$row_count += 1;
-$objPHPExcel->getActiveSheet()->setCellValue('B'.$row_count, 'Total:');
-$objPHPExcel->getActiveSheet()->setCellValue('C'.$row_count, '$15, 000');
+	$row_count += 1;
+	$objPHPExcel->getActiveSheet()->setCellValue('B'.$row_count, 'Total:');
+	$objPHPExcel->getActiveSheet()->setCellValue('C'.$row_count, $row_proyectos["total"]);
 
-$row_count -=2;
-$objPHPExcel->getActiveSheet()->mergeCells("E".$row_count.":G".$row_count);
-$objPHPExcel->getActiveSheet()->getStyle("E".$row_count.":G".$row_count)->applyFromArray(
-        array(
-            'fill' => array(
-                'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                'color' => array('rgb' => '77e2fb')
-            ),
-            'alignment' => array(
-	            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+	$row_count -=2;
+	$objPHPExcel->getActiveSheet()->mergeCells("E".$row_count.":G".$row_count);
+	$objPHPExcel->getActiveSheet()->getStyle("E".$row_count.":G".$row_count)->applyFromArray(
+	        array(
+	            'fill' => array(
+	                'type' => PHPExcel_Style_Fill::FILL_SOLID,
+	                'color' => array('rgb' => '77e2fb')
+	            ),
+	            'alignment' => array(
+		            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+		        )
 	        )
-        )
-);
-$objPHPExcel->getActiveSheet()->setCellValue('E'.$row_count, 'Workers');
+	);
+	$objPHPExcel->getActiveSheet()->setCellValue('E'.$row_count, 'Workers');
 
-for (; $row_count < 15; $row_count++) { 
-	$objPHPExcel->getActiveSheet()->setCellValue('E'.$row_count, 'Worker 1');
-	$objPHPExcel->getActiveSheet()->setCellValue('F'.$row_count, '15 hours');
-	$objPHPExcel->getActiveSheet()->setCellValue('G'.$row_count, '$1, 500');
-}
+	$row_count += 1;
+	$sql_workers = "SELECT vt.nombre, SUM(IFNULL(HOUR(pr.total_horas),0)) as horas, SUM(IFNULL(HOUR(pr.total_horas),0) * pr.pago) as total FROM vista_trabajadores as vt INNER JOIN payroll as pr ON pr.id_trabajador = vt.idusuario INNER JOIN proyectos as p ON p.idproyecto = pr.id_proyecto WHERE p.idproyecto = ".$row_proyectos["id"]." GROUP BY vt.idusuario";
+	$consulta_workers=mysql_query($sql_workers, $conexionestelar) or die(mysql_error());
+	while($row_workers = mysql_fetch_assoc($consulta_workers))
+	{
+		$objPHPExcel->getActiveSheet()->setCellValue('E'.$row_count, $row_workers["nombre"]);
+		$objPHPExcel->getActiveSheet()->setCellValue('F'.$row_count, $row_workers["horas"]." Hours");
+		$objPHPExcel->getActiveSheet()->setCellValue('G'.$row_count, $row_workers["total"]);
+		$row_count += 1;
+	}
+
+	$row_count += 2;
+} while($row_proyectos=mysql_fetch_assoc($consulta));
+
 
 
 
