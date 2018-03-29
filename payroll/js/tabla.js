@@ -133,3 +133,38 @@ function isValidDay(date){
   }
   return !(/\D/.test(String(d))) && d > 0 && d <= daysInMonth[m]
 }
+
+function cambiarLink(tipo)
+{
+  var url;
+  document.getElementById("select-proyecto").classList.add("hidden");
+  document.getElementById("select-trabajador").classList.add("hidden");
+  switch(tipo)
+  {
+    case "1":
+      url = "general_payroll.php";
+      break;
+    case "2":
+      url = "project_payroll.php?project="+document.getElementById("select-proyecto").value;
+      document.getElementById("select-proyecto").classList.remove("hidden");
+      break;
+    case "3":
+      url = "worker_payroll.php?worker="+document.getElementById("select-proyecto").value;
+      document.getElementById("select-trabajador").classList.remove("hidden");
+      break;
+    case "4":
+      url = "expenses_project.php";
+      break;
+  }
+  document.getElementById("a-exportar").href = url;
+}
+
+function cambiarProyecto(id)
+{
+  document.getElementById("a-exportar").href = "project_payroll.php?project="+id;
+}
+
+function cambiarTrabajador(id)
+{
+  document.getElementById("a-exportar").href = "worker_payroll.php?worker="+id;
+}

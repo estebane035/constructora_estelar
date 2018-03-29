@@ -4,6 +4,11 @@ require("../conexionbd/conexionbase.php");
 require("../conexionbd/conexionestelar.php");
 require("../includes/account.php");
 $titulo="Projects Payroll";
+
+mysql_select_db($database_conexionestelar,$conexionestelar);
+$consulta_trabajadores=mysql_query("SELECT idusuario as id, nombre FROM vista_trabajadores ",$conexionestelar) or die(mysql_error());
+
+$consulta_proyectos=mysql_query("SELECT idproyecto as id, nombre FROM proyectos ",$conexionestelar) or die(mysql_error());
 ?>
 <!DOCTYPE>
 <html>
@@ -34,15 +39,25 @@ $titulo="Projects Payroll";
 					</td>
 					<td width="58%"><div align="center"><h2 id="title"></h2><div></td>
 					<td>
-						<label>Exportar como:</label>
-		        <select class="form-control" id="tipoTabla" name="tipo_tabla" required onchange="">
-		            <option value="1">General Payroll</option>
-		            <option value="2">Payroll by Project</option>
-		            <option value="3">Payroll by Worker</option>
-								<option value="4">Expenses per Project</option>
-		        </select><br><br>
+						<label>Exportar as:</label>
+						<select class="form-control" id="tipoTabla" name="tipo_tabla" required onchange="cambiarLink(this.value)">
+					        <option value="1">General Payroll</option>
+					        <option value="2">Payroll by Project</option>
+					        <option value="3">Payroll by Worker</option>
+							<option value="4">Expenses per Project</option>
+						</select><br><br>
+						<select class="form-control hidden" id="select-proyecto" style="float:right;" onchange="cambiarProyecto(this.value)">
+							<?php while ($row=mysql_fetch_assoc($consulta_proyectos)) {?>
+								<option value="<?php echo $row["id"] ?>"><?php echo $row["nombre"]; ?></option>
+							<?php } ?>
+						</select>
+						<select class="form-control hidden" id="select-trabajador" style="float:right;" onchange="cambiarTrabajador(this.value)">
+							<?php while ($row=mysql_fetch_assoc($consulta_trabajadores)) {?>
+								<option value="<?php echo $row["id"] ?>"><?php echo $row["nombre"]; ?></option>
+							<?php } ?>
+						</select><br><br>
 						<div align="right">
-							<input type="button" value="Exportar">
+							<a target="_blank" href="general_payroll.php?date=<?php echo date("Y-m-d"); ?>" id="a-exportar"><button>Export</button></a>
 						</div>
 					</td>
 				</tr>
