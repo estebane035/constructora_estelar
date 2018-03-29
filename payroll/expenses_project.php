@@ -22,7 +22,7 @@ require("../conexionbd/conexionestelar.php");
 
 mysql_select_db($database_conexionestelar,$conexionestelar);
 
-$sql = "SELECT p.idproyecto as id, p.nombre, IFNULL((SELECT SUM(HOUR(total_horas)) FROM payroll where id_proyecto = p.idproyecto),0) as horas, IFNULL((SELECT SUM(IFNULL(HOUR(total_horas)*pago,0))  FROM payroll where id_proyecto = p.idproyecto),0) as total FROM proyectos as p";
+$sql = "SELECT p.idproyecto as id, p.nombre, IFNULL((SELECT SUM(cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2))) FROM payroll where id_proyecto = p.idproyecto),0) as horas, IFNULL((SELECT SUM(IFNULL(cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2))*pago,0))  FROM payroll where id_proyecto = p.idproyecto),0) as total FROM proyectos as p";
 $consulta=mysql_query($sql, $conexionestelar) or die(mysql_error());
 $row_proyectos=mysql_fetch_assoc($consulta);
 
@@ -105,7 +105,7 @@ do
 	$objPHPExcel->getActiveSheet()->setCellValue('E'.$row_count, 'Workers');
 
 	$row_count += 1;
-	$sql_workers = "SELECT vt.nombre, SUM(IFNULL(HOUR(pr.total_horas),0)) as horas, SUM(IFNULL(HOUR(pr.total_horas),0) * pr.pago) as total FROM vista_trabajadores as vt INNER JOIN payroll as pr ON pr.id_trabajador = vt.idusuario INNER JOIN proyectos as p ON p.idproyecto = pr.id_proyecto WHERE p.idproyecto = ".$row_proyectos["id"]." GROUP BY vt.idusuario";
+	$sql_workers = "SELECT vt.nombre, SUM(IFNULL(cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2)),0)) as horas, SUM(IFNULL(cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2)),0) * pr.pago) as total FROM vista_trabajadores as vt INNER JOIN payroll as pr ON pr.id_trabajador = vt.idusuario INNER JOIN proyectos as p ON p.idproyecto = pr.id_proyecto WHERE p.idproyecto = ".$row_proyectos["id"]." GROUP BY vt.idusuario";
 	$consulta_workers=mysql_query($sql_workers, $conexionestelar) or die(mysql_error());
 	while($row_workers = mysql_fetch_assoc($consulta_workers))
 	{
