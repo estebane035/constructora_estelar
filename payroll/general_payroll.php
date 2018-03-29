@@ -217,12 +217,35 @@ foreach($workers as $worker){
   $objPHPExcel->getActiveSheet()->setCellValue($columns[$count + 4].$row_count, $total);
   $row_count += 1;
 }
+$objPHPExcel->getActiveSheet()->getStyle($columns[0]."2:".$act.($row_count-1))->applyFromArray(
+        array(
+            'alignment' => array(
+              'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+          	),
+						'borders' => array(
+          		'outline' => array(
+              'style' => PHPExcel_Style_Border::BORDER_THICK
+          		)
+      			)
+        )
+);
 $row_count += 1;
+$objPHPExcel->getActiveSheet()->getStyle($columns[$count + 3].$row_count.":".$columns[$count + 4].$row_count)->applyFromArray(
+        array(
+            'alignment' => array(
+              'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+          	),
+						'borders' => array(
+          		'outline' => array(
+              'style' => PHPExcel_Style_Border::BORDER_THICK
+          		)
+      			)
+        )
+);
 $objPHPExcel->getActiveSheet()->setCellValue($columns[$count + 3].$row_count, "Total Payroll");
 $objPHPExcel->getActiveSheet()->setCellValue($columns[$count + 4].$row_count, $sum_total);
-
+$index = $row_count;
 foreach($projects as $project){
-  //print_r($project);
   $objPHPExcel->getActiveSheet()->getStyle($columns[0].$row_count)->applyFromArray(
           array(
               'fill' => array(
@@ -237,6 +260,18 @@ foreach($projects as $project){
   $objPHPExcel->getActiveSheet()->setCellValue($columns[1].$row_count, $project['nombre']);
   $row_count+=1;
 }
+$objPHPExcel->getActiveSheet()->getStyle($columns[0].$index.":".$columns[1].($row_count-1))->applyFromArray(
+        array(
+            'alignment' => array(
+              'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+          	),
+						'borders' => array(
+          		'outline' => array(
+              'style' => PHPExcel_Style_Border::BORDER_THICK
+          		)
+      			)
+        )
+);
 
 
 //SELECT py.nombre, SUM(IFNULL(HOUR(pr.total_horas),0)) as horas, SUM(IFNULL(HOUR(pr.total_horas),0) * pr.pago) as total FROM proyectos AS py INNER JOIN payroll as pr ON pr.id_proyecto = py.idproyecto WHERE pr.id_trabajador = 8 GROUP BY py.nombre
