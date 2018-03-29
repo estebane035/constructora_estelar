@@ -142,22 +142,21 @@ function cambiarLink(tipo)
   switch(tipo)
   {
     case "1":
-      url = "general_payroll.php?date=" + document.getElementById("fecha_actual").value;
+      url = "general_payroll.php?date=" + $('#from').val();
       break;
     case "2":
-      url = "project_payroll.php?project=" + document.getElementById("select-proyecto").value;
+      url = "project_payroll.php?project="+document.getElementById("select-proyecto").value;
       document.getElementById("select-proyecto").classList.remove("hidden");
       break;
     case "3":
-      url = "worker_payroll.php?worker=" + document.getElementById("select-proyecto").value;
+      url = "worker_payroll.php?worker="+document.getElementById("select-proyecto").value;
       document.getElementById("select-trabajador").classList.remove("hidden");
       break;
     case "4":
       url = "expenses_project.php";
       break;
   }
-  alert(url);
-  //document.getElementById("a-exportar").href = url;
+  document.getElementById("a-exportar").href = url;
 }
 
 function cambiarProyecto(id)
