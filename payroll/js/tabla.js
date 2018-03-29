@@ -75,6 +75,7 @@ function eliminar(id)
 function cambiarQuincena(fecha)
 {
   $('#title').html(changeDays(fecha));
+  cambiarLink(document.getElementById("tipoTabla").value);
   //alert(fecha);
   //changeDays(fecha);
 }
@@ -142,14 +143,14 @@ function cambiarLink(tipo)
   switch(tipo)
   {
     case "1":
-      url = "general_payroll.php?date=" + document.getElementById("fecha_actual").value;
+      url = "general_payroll.php?date="+document.getElementById("fecha_actual").value;
       break;
     case "2":
-      url = "project_payroll.php?project="+document.getElementById("select-proyecto").value;
+      url = "project_payroll.php?project="+document.getElementById("select-proyecto").value+"&date="+document.getElementById("fecha_actual").value;
       document.getElementById("select-proyecto").classList.remove("hidden");
       break;
     case "3":
-      url = "worker_payroll.php?worker="+document.getElementById("select-proyecto").value;
+      url = "worker_payroll.php?worker="+document.getElementById("select-proyecto").value+"&date="+document.getElementById("fecha_actual").value;
       document.getElementById("select-trabajador").classList.remove("hidden");
       break;
     case "4":
@@ -161,10 +162,10 @@ function cambiarLink(tipo)
 
 function cambiarProyecto(id)
 {
-  document.getElementById("a-exportar").href = "project_payroll.php?project="+id;
+  document.getElementById("a-exportar").href = "project_payroll.php?project="+id+"&date="+document.getElementById("fecha_actual").value;
 }
 
 function cambiarTrabajador(id)
 {
-  document.getElementById("a-exportar").href = "worker_payroll.php?worker="+id;
+  document.getElementById("a-exportar").href = "worker_payroll.php?worker="+id+"&date="+document.getElementById("fecha_actual").value;
 }
