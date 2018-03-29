@@ -142,7 +142,7 @@ function cambiarLink(tipo)
   switch(tipo)
   {
     case "1":
-      url = "general_payroll.php?date=" + $('#from').val();
+      url = "general_payroll.php?date=" + document.getElementById("fecha_actual").value;
       break;
     case "2":
       url = "project_payroll.php?project="+document.getElementById("select-proyecto").value;

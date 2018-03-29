@@ -57,7 +57,7 @@ $consulta_proyectos=mysql_query("SELECT idproyecto as id, nombre FROM proyectos 
 							<?php } ?>
 						</select><br><br>
 						<div align="right">
-							<a target="_blank" href="general_payroll.php?date=<?php echo date("Y-m-d"); ?>" id="a-exportar"><button>Export</button></a>
+							<a target="_blank" href="general_payroll.php?date=<?php echo date("Y/m/d"); ?>" id="a-exportar"><button>Export</button></a>
 						</div>
 					</td>
 				</tr>
