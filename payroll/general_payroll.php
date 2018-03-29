@@ -1,4 +1,8 @@
 <?php
+if (!isset($_GET["date"]))
+{
+	echo "Missing variable date";exit;
+}
 session_start();
 if(!isset($_SESSION['idusuario']))
 	header("location:../includes/close_session/");
@@ -18,41 +22,50 @@ switch ($_SESSION['tipousuario']) {
 require_once  "../PHPExcel/PHPExcel.php";
 require("../conexionbd/conexionbase.php");
 require("../conexionbd/conexionestelar.php");
+include 'colors.php';
 
 mysql_select_db($database_conexionestelar,$conexionestelar);
 
 $date = $_GET['date'];
 $dateToTime = strtotime($date);
-list($year, $month, $day) = explode('-', $date);
+list($year, $month, $day) = explode('/', $date);
 $daysOfPayRoll = array();
 if($day <= 15){
-  $from = $year."-".$month."-01 00:00:00";
+  $from = $year."-".$month."-01";
   for($i = 1; $i <= 15; $i++){
     $actualDate = strtotime($year."-".$month."-".$i);
     $daysOfPayRoll[] = date("D", $actualDate)." ".$i;
-    $to = $year."-".$month."-".$i." 23:59:59";
+    $to = $year."-".$month."-".$i;
   }
 }else{
-  $from = $year."-".$month."-16 00:00:00";
+  $from = $year."-".$month."-16";
   for($i = 16; $i <= 31; $i++){
     if(checkdate($month, $i, $year)){
       $actualDate = strtotime($year."-".$month."-".$i);
       $daysOfPayRoll[] = date("D", $actualDate)." ".$i;
-      $to = $year."-".$month."-".$i." 23:59:59";
+      $to = $year."-".$month."-".$i;
     }
   }
 }
 
 $count = count($daysOfPayRoll);
 
-/*$consulta = "SELECT payroll.id_trabajador, vista_trabajadores.nombre FROM payroll, vista_trabajadores WHERE payroll.id_trabajador = vista_trabajadores.idusuario AND payroll.check_in BETWEEN '".$from."' AND '".$to."' GROUP BY payroll.id_trabajador";
+$consulta = "SELECT payroll.id_trabajador, vista_trabajadores.nombre FROM payroll, vista_trabajadores WHERE payroll.id_trabajador = vista_trabajadores.idusuario AND payroll.check_in BETWEEN '".$from."' AND '".$to."' GROUP BY payroll.id_trabajador";
 $resultado = mysql_query($consulta);
 $workers = array();
-while($row = mysql_fetch_assoc($result))
-  $workers[] = $row;*/
-/*
-  consultas
-*/
+while($row = mysql_fetch_assoc($resultado))
+  $workers[] = $row;
+
+$consulta = "SELECT idproyecto, nombre FROM proyectos";
+$resultado = mysql_query($consulta);
+$projects = array();
+while($row = mysql_fetch_assoc($resultado))
+  $projects[] = $row;
+foreach($projects as &$project)
+  $project['color'] = randomColor(100, 255);
+unset($project);
+
+//print_r($projects);
 
 $objPHPExcel = new PHPExcel();
 
@@ -133,7 +146,7 @@ $objPHPExcel->getActiveSheet()->getStyle($columns[0].$row_count.":".$act.$row_co
     )
 );
 
-$objPHPExcel->getActiveSheet()->setCellValue($columns[0].$row_count, 'GENERAL PAYROLL');
+$objPHPExcel->getActiveSheet()->setCellValue($columns[0].$row_count, 'GENERAL PAYROLL '.$from." to ".$to);
 $row_count+=1;
 $objPHPExcel->getActiveSheet()->getStyle($columns[0].$row_count.":".$act.$row_count)->applyFromArray(
         array(
@@ -161,19 +174,70 @@ $column += 1;
 $objPHPExcel->getActiveSheet()->setCellValue($columns[$column].$row_count, "Rate x Hrs");
 $column += 1;
 $objPHPExcel->getActiveSheet()->setCellValue($columns[$column].$row_count, "Payment");
-/*$row_count+=1;
+$row_count+=1;
+$sum_total = 0;
 foreach($workers as $worker){
   $objPHPExcel->getActiveSheet()->setCellValue($columns[0].$row_count, $worker['id_trabajador']);
   $objPHPExcel->getActiveSheet()->setCellValue($columns[1].$row_count, $worker['nombre']);
-  $consulta = "SELECT id_proyecto, DATE_FORMAT(check_in, '%Y-%m-%d') AS date, total_horas FROM payroll WHERE id_trabajador = ".$worker['id_trabajador'];
+  $consulta = "SELECT id_proyecto, DATE_FORMAT(check_in, '%Y-%m-%d') AS date, cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2)) AS total_horas, pago, (cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2)) * pago) AS total FROM payroll WHERE check_in BETWEEN '".$from."' AND '".$to."' AND id_trabajador = ".$worker['id_trabajador'];
   $result = mysql_query($consulta);
   $checks = array();
   while($row = mysql_fetch_assoc($result))
     $checks[] = $row;
+  $total_horas = 0;
+  $pago = 0;
+  $total = 0;
   foreach($checks as $check){
-    $checkOfDay =
+    $total_horas += $check['total_horas'];
+    $pago = $check['pago'];
+    $total += $check['total'];
+    $checkOfDay = date("d", strtotime($check['date']));
+    if($checkOfDay > 15)
+      $checkOfDay -= 15;
+      foreach($projects as $project){
+        if($project['idproyecto'] == $check['id_proyecto'])
+          $color = $project['color'];
+        }
+      $objPHPExcel->getActiveSheet()->getStyle($columns[$checkOfDay + 1].$row_count)->applyFromArray(
+              array(
+                  'fill' => array(
+                      'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                      'color' => array('rgb' => $color)
+                  ),
+                  'alignment' => array(
+                    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                )
+              )
+      );
+    $objPHPExcel->getActiveSheet()->setCellValue($columns[$checkOfDay + 1].$row_count, $check['total_horas']);
   }
-}*/
+  $sum_total += $total;
+  $objPHPExcel->getActiveSheet()->setCellValue($columns[$count + 2].$row_count, $total_horas);
+  $objPHPExcel->getActiveSheet()->setCellValue($columns[$count + 3].$row_count, $pago);
+  $objPHPExcel->getActiveSheet()->setCellValue($columns[$count + 4].$row_count, $total);
+  $row_count += 1;
+}
+$row_count += 1;
+$objPHPExcel->getActiveSheet()->setCellValue($columns[$count + 3].$row_count, "Total Payroll");
+$objPHPExcel->getActiveSheet()->setCellValue($columns[$count + 4].$row_count, $sum_total);
+
+foreach($projects as $project){
+  //print_r($project);
+  $objPHPExcel->getActiveSheet()->getStyle($columns[0].$row_count)->applyFromArray(
+          array(
+              'fill' => array(
+                  'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                  'color' => array('rgb' => $project['color'])
+              ),
+              'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            )
+          )
+  );
+  $objPHPExcel->getActiveSheet()->setCellValue($columns[1].$row_count, $project['nombre']);
+  $row_count+=1;
+}
+
 
 //SELECT py.nombre, SUM(IFNULL(HOUR(pr.total_horas),0)) as horas, SUM(IFNULL(HOUR(pr.total_horas),0) * pr.pago) as total FROM proyectos AS py INNER JOIN payroll as pr ON pr.id_proyecto = py.idproyecto WHERE pr.id_trabajador = 8 GROUP BY py.nombre
 

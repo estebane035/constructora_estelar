@@ -87,27 +87,27 @@ function changeDays(fecha){
   var string_to = "";
   var j = 1;
   if(day <= 15){
-    $('#from').val(now.getFullYear() + "-" + (now.getMonth() + 1) + "-01 00:00:00");
+    $('#from').val(now.getFullYear() + "-" + (now.getMonth() + 1) + "-01");
     date = new Date(now.getFullYear(), now.getMonth(), 1);
     array += getWeekDay(date.getDay()) + " " + 1;
     for(var i = 2; i <= 15; i++, j++){
       var date = new Date(now.getFullYear(), now.getMonth(), i);
       if(isValidDay(i + "/" + now.getMonth() + "/" + now.getFullYear())){
         string_to = getWeekDay(date.getDay()) + " " + i + "\n";
-        $('#to').val(now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + i + " 23:59:59");
+        $('#to').val(now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + i);
       }
     }
     array += " to " + string_to;
   }
   else{
-    $('#from').val(now.getFullYear() + "-" + (now.getMonth() + 1) + "-16 00:00:00");
+    $('#from').val(now.getFullYear() + "-" + (now.getMonth() + 1) + "-16");
     date = new Date(now.getFullYear(), now.getMonth(), 16);
     array += getWeekDay(date.getDay()) + " " + 16;
     for(var i = 17; i <= 31; i++, j++){
       var date = new Date(now.getFullYear(), now.getMonth(), i);
       if(isValidDay(i + "/" + now.getMonth() + "/" + now.getFullYear())){
         string_to = getWeekDay(date.getDay()) + " " + i + "\n";
-        $('#to').val(now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + i + " 23:59:59");
+        $('#to').val(now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + i);
       }
     }
     array += " to " + string_to;
@@ -142,21 +142,22 @@ function cambiarLink(tipo)
   switch(tipo)
   {
     case "1":
-      url = "general_payroll.php";
+      url = "general_payroll.php?date=" + document.getElementById("fecha_actual").value;
       break;
     case "2":
-      url = "project_payroll.php?project="+document.getElementById("select-proyecto").value;
+      url = "project_payroll.php?project=" + document.getElementById("select-proyecto").value;
       document.getElementById("select-proyecto").classList.remove("hidden");
       break;
     case "3":
-      url = "worker_payroll.php?worker="+document.getElementById("select-proyecto").value;
+      url = "worker_payroll.php?worker=" + document.getElementById("select-proyecto").value;
       document.getElementById("select-trabajador").classList.remove("hidden");
       break;
     case "4":
       url = "expenses_project.php";
       break;
   }
-  document.getElementById("a-exportar").href = url;
+  alert(url);
+  //document.getElementById("a-exportar").href = url;
 }
 
 function cambiarProyecto(id)
