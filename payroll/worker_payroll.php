@@ -236,7 +236,7 @@ foreach($projects as $project){
 	}
 	$sum_total += $total;
 	$objPHPExcel->getActiveSheet()->setCellValue($columns[$count + 1].$row_count, $total_horas);
-	$objPHPExcel->getActiveSheet()->getStyle($columns[$count + 3].$row_count)->getNumberFormat()->setFormatCode(FORMAT_ACCOUNTING);
+	$objPHPExcel->getActiveSheet()->getStyle($columns[$count + 2].$row_count)->getNumberFormat()->setFormatCode(FORMAT_ACCOUNTING);
   $objPHPExcel->getActiveSheet()->setCellValue($columns[$count + 2].$row_count, $pago);
 	$objPHPExcel->getActiveSheet()->getStyle($columns[$count + 3].$row_count)->getNumberFormat()->setFormatCode(FORMAT_ACCOUNTING);
   $objPHPExcel->getActiveSheet()->setCellValue($columns[$count + 3].$row_count, $total);
