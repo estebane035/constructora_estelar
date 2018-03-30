@@ -13,7 +13,29 @@
   if(mysql_num_rows($payroll)!=0){
     $payroll = mysql_fetch_assoc($payroll);
     if(empty($payroll['check_out'])){
-      $consulta = "UPDATE payroll SET check_out = now(), total_horas = SEC_TO_TIME(TIMESTAMPDIFF(SECOND, check_in, now())) WHERE DATE_FORMAT(check_in, '%Y-%c-%d') = DATE_FORMAT(now(), '%Y-%c-%d') AND id_trabajador = ".$id_trabajador;
+      //Calcular la fecha
+        $consulta = "SELECT hora_check_in FROM proyectos WHERE idproyecto = ".$id_proyecto;
+        $resultado = mysql_query($consulta);
+        $row = mysql_fetch_assoc($resultado);
+        //echo $row['hora_check_in'];
+        $hora = date_create($row['hora_check_in']);
+        $hora = date_format($hora, 'H:i:s');
+        $check_date = date_create($payroll['check_in']);
+        $check_out_date = date_create($payroll['check_in']);
+        $check_out_date = date_format($check_out_date, 'Y-m-d');
+        $check_date = date_format($check_date, 'H:i:s');
+        /*$check_date = strtotime( '-6 hour', strtotime($check_date));
+        $check_date = date('H:i:s', $check_date);
+        if($hora == $check_date)
+          echo "Horas iguales";*/
+        if($hora > $check_date)
+          $consulta = "UPDATE payroll SET check_out = now(), total_horas = SEC_TO_TIME(TIMESTAMPDIFF(SECOND, '".$check_out_date." ".$row['hora_check_in']."', IF(now() > (DATE_FORMAT(now(), '%Y-%m-%d %H:20:00')), DATE_FORMAT(now(), '%Y-%m-%d %H:%i:%s'), (DATE_FORMAT(now(), '%Y-%m-%d %H:00:00'))))) WHERE DATE_FORMAT(check_in, '%Y-%c-%d') = DATE_FORMAT(now(), '%Y-%c-%d') AND id_trabajador = ".$id_trabajador;
+          //echo $hora." mayor a ".$check_date.", llegas temprano";
+        else
+          $consulta = "UPDATE payroll SET check_out = now(), total_horas = SEC_TO_TIME(TIMESTAMPDIFF(SECOND, check_in, IF(now() > (DATE_FORMAT(now(), '%Y-%m-%d %H:20:00')), DATE_FORMAT(now(), '%Y-%m-%d %H:%i:%s'), (DATE_FORMAT(now(), '%Y-%m-%d %H:00:00'))))) WHERE DATE_FORMAT(check_in, '%Y-%c-%d') = DATE_FORMAT(now(), '%Y-%c-%d') AND id_trabajador =".$id_trabajador;
+          //echo $hora." menor a ".$check_date.", llegas tarde";
+      //Registrar salida
+      //$consulta = "UPDATE payroll SET check_out = now(), total_horas = SEC_TO_TIME(TIMESTAMPDIFF(SECOND, check_in, now())) WHERE DATE_FORMAT(check_in, '%Y-%c-%d') = DATE_FORMAT(now(), '%Y-%c-%d') AND id_trabajador = ".$id_trabajador;
       $result = mysql_query($consulta) or die(mysql_error());
       if($result)
         echo 2;

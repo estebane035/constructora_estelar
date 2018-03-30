@@ -10,7 +10,7 @@ $idwork=isset($_GET['idwork'])?$_GET['idwork']:NULL;
 $_SESSION['idwork']=$idwork;
 
 //OBTIENE DATOS DEL TRABAJO
-	$datos_trabajo=mysql_query("select proyectos.idproyecto, proyectos.nombre, proyectos.latitud, proyectos.longitud, proyectos.idconstructora,actividad FROM proyectos_actividades INNER JOIN proyectos ON proyectos_actividades.idproyecto=proyectos.idproyecto WHERE proyectos_actividades.idpat='".$idwork."' limit 0,1 ",$conexionestelar) or die(mysql_error());
+	$datos_trabajo=mysql_query("select proyectos.idproyecto, proyectos.nombre, proyectos.latitud, proyectos.longitud, proyectos.rango, proyectos.idconstructora,actividad FROM proyectos_actividades INNER JOIN proyectos ON proyectos_actividades.idproyecto=proyectos.idproyecto WHERE proyectos_actividades.idpat='".$idwork."' limit 0,1 ",$conexionestelar) or die(mysql_error());
 	$row_datos_trabajo=mysql_fetch_assoc($datos_trabajo);
 
 //OBTIENE DATOS DE LA CONTRUCTORA
@@ -122,6 +122,7 @@ else
 <input type="hidden" id="project_longitude" value="<?php echo $row_datos_trabajo['longitud'] ?>">
 <input type="hidden" id="current_latitude" value="20.6326609">
 <input type="hidden" id="current_longitude" value="-103.2740618">
+<input type="hidden" id="range" value="<?php echo $row_datos_trabajo['rango'] ?>">
 </div><!--div main notifications-->
 <!--	<div id="div_imagen">
 	 <form method="post" id="formulario" enctype="multipart/form-data">

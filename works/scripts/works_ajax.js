@@ -168,7 +168,7 @@ function validateDistance(id_proyecto, id_trabajador){
       else{
         var distance = response.rows[0].elements[0].distance.value;
         alert(distance + " meters");
-        if(distance > 100)
+        if(distance > $('#range').val())
           alert("Incorrect location. Please sign in on site");
         else
           check(id_proyecto, id_trabajador);
