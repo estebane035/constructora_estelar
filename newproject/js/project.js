@@ -16,6 +16,8 @@ function guardar_proyecto()
 	if(!document.getElementById('fechatermino').value){c++;}
 	if(!document.getElementById('lat').value){c++;}
 	if(!document.getElementById('lng').value){c++;}
+	if(!document.getElementById('hora_check_in').value){c++;}
+	if(!document.getElementById('rango').value){c++;}
 	
 	if(c==0)
 	{ document.newprojectform.submit();	}

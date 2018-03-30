@@ -69,6 +69,7 @@ $titulo="NEW PROJECT";
 <link href="css/projects.css" rel="stylesheet" type="text/css">
 <link href="../css/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css">
 <link href="../css/jquery-ui.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../libs/datepicker/jquery.timepicker.css" />
 </head>
 
 <body>
@@ -92,11 +93,13 @@ $titulo="NEW PROJECT";
                                     </select>
         						</td></tr>
         <tr><td class="negra">Start Date</td><td><input type="text" class="fechas" name="fechainicio" id="fechainicio" size="9"></td></tr>
-        <tr><td class="negra">Finish Date</td><td><input type="text" class="fechas" name="fechatermino" id="fechatermino" size="9"></td></tr>                        
+        <tr><td class="negra">Finish Date</td><td><input type="text" class="fechas" name="fechatermino" id="fechatermino" size="9"></td></tr> 
+        <tr><td class="negra">Check-in Hour</td><td><input type="text" class="time" name="hora_check_in" id="hora_check_in" size="9"></td></tr>                        
     </table><br><br>
 
     <table>
         <tr><td>LOCATION</td></tr>
+        <tr><td class="negra">Check in range (in meters)</td><td><input type="number" name="rango" id="rango"></td></tr>
     </table>
     <hr style="width:700px;" align="left" color="#666666">
 
@@ -131,9 +134,12 @@ $titulo="NEW PROJECT";
 <script type="text/javascript" src="../scripts/jquery-1.12.4.js"></script>
 <script type="text/javascript" src="../scripts/jquery-ui.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-Oq-WHG-knSvcEN8vdKDkWWPfERDV6TA&libraries=places&callback=initAutocomplete" async defer></script>
+
+<script type="text/javascript" src="../libs/datepicker/jquery.timepicker.js"></script>
 <script>
   $( function() {
     $( ".fechas" ).datepicker();
+    $('#hora_check_in').timepicker();
   } );
   </script>
 

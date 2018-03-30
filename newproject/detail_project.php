@@ -8,7 +8,7 @@ mysql_select_db($database_conexionestelar,$conexionestelar);
 $idproject=isset($_GET['idp'])?$_GET['idp']:NULL;
 
 //Obtiene datos del proyecto
-	$datos_proyecto=mysql_query("select nombre,descripcion,fechainicio,fechatermino,idconstructora,status,latitud,longitud from proyectos where idproyecto='".$idproject."' limit 0,1 ",$conexionestelar) or die(mysql_error());
+	$datos_proyecto=mysql_query("select nombre,descripcion,fechainicio,fechatermino,idconstructora,status,latitud,longitud,rango,hora_check_in from proyectos where idproyecto='".$idproject."' limit 0,1 ",$conexionestelar) or die(mysql_error());
 	$row_datos_proyecto=mysql_fetch_assoc($datos_proyecto);
 //obtiene nombre de constructora
 	$constructora=mysql_query("select idconstructora,nombre from constructoras where idconstructora='".$row_datos_proyecto['idconstructora']."' limit 0,1 ",$conexionestelar) or die(mysql_error());
@@ -101,6 +101,9 @@ $titulo="PROJECT DETAIL";
     </table>
     <table id="tablapadding5">
     	<tr><td class="negra">Start Date</td><td><?php echo $row_datos_proyecto['fechainicio']?></td><td class="negra">Finish Date</td><td><?php echo $row_datos_proyecto['fechatermino']?></td></tr>
+    </table>
+    <table id="tablapadding5">
+        <tr><td class="negra">Check in hour</td><td><?php echo date('g:i A', strtotime($row_datos_proyecto['hora_check_in'])); ?></td><td class="negra">Check in range</td><td><?php echo $row_datos_proyecto['rango']." meters"; ?></td></tr>
     </table>
     <table id="tablapadding5">
     	<tr><td class="negra">Status</td><td><?php echo $a_status[$row_datos_proyecto['status']]?></td></tr>
