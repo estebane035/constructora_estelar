@@ -1,24 +1,6 @@
 // JavaScript Document
-function getLocation() {
-
-  var latitud;
-  var longitud;
-  if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(mostrarUbicacion);
-  }
-  else {
-      alert("¡Error! Este navegador no soporta la Geolocalización.");
-  }
-  function mostrarUbicacion(position) {
-      var times = position.timestamp;
-      latitud = position.coords.latitude;
-      longitud = position.coords.longitude;
-      var altitud = position.coords.altitude;
-      var exactitud = position.coords.accuracy;
-      alert("Timestamp: " + times + "\nLatitud: " + latitud + "\nLongitud: " + longitud + "\nAltura en metros: " + altitud + "\nExactitud: " + exactitud);
-  }
-}
 $(document).ready(function() {
+  getLocation();
 	check_state = $('#check_state').val();
 	switch (check_state) {
 		case '0':
@@ -197,4 +179,27 @@ function validateDistance(id_proyecto, id_trabajador){
     // See Parsing the Results for
     // the basics of a callback function.
   });
+}
+function getLocation() {
+
+  var latitud;
+  var longitud;
+  if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(mostrarUbicacion);
+  }
+  else {
+      alert("¡Error! Este navegador no soporta la Geolocalización.");
+  }
+  function mostrarUbicacion(position) {
+      var times = position.timestamp;
+      latitud = position.coords.latitude;
+      longitud = position.coords.longitude;
+      var altitud = position.coords.altitude;
+      var exactitud = position.coords.accuracy;
+      $('#current_latitude').val(latitud);
+      $('#current_longitude').val(longitud);
+      //document.getElementById('current_latitude').value = latitud;
+      //document.getElementById('current_longitude').value = longitud;
+      //alert("Timestamp: " + times + "\nLatitud: " + latitud + "\nLongitud: " + longitud + "\nAltura en metros: " + altitud + "\nExactitud: " + exactitud);
+  }
 }
