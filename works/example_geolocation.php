@@ -12,8 +12,8 @@
         <input type="button" id="boton" onclick="getDistance();" value="Distancia">
         <input type="hidden" id="reference_latitude" value="20.632162">
         <input type="hidden" id="reference_longitude" value="-103.2741612">
-        <input type="hidden" id="current_latitude" value="20.632162">
-        <input type="hidden" id="current_longitude" value="-103.2741612">
+        <input type="hidden" id="current_latitude" value="20.6327939">
+        <input type="hidden" id="current_longitude" value="-103.2743451">
       </div>
     </body>
     <script async defer

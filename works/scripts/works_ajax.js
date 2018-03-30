@@ -165,3 +165,36 @@ function check(id_proyecto, id_trabajador){
 		}
 	});
 }
+
+function validateDistance(id_proyecto, id_trabajador){
+  var origin = new google.maps.LatLng($('#current_latitude').val(), $('#current_longitude').val());
+  var destiny = new google.maps.LatLng($('#project_latitude').val(), $('#project_longitude').val());
+  var service = new google.maps.DistanceMatrixService();
+  service.getDistanceMatrix(
+    {
+      origins: [origin],
+      destinations: [destiny],
+      travelMode: 'DRIVING',
+      unitSystem: google.maps.UnitSystem.METRIC,
+      avoidHighways: false,
+      avoidTolls: false,
+    }, function (response, status) {
+      //alert(JSON.stringify(response));
+      if(status != 'OK'){
+        alert("No se pudo determinar la ubicación, vuelve a intentar");
+      }
+      else{
+        var distance = response.rows[0].elements[0].distance.value;
+        alert(distance + " metros");
+        if(distance > 100)
+          alert("Te encuentras muy lejos, no es posible realizar el check");
+        else
+          check(id_proyecto, id_trabajador);
+      }
+    //alert(JSON.stringify(response));
+    //return JSON.stringify(response["rows"][0]["elements"][0]["distance"]["text"]);
+    //alert(JSON.stringify(response["rows"][0]["elements"][0]["distance"]["text"]));
+    // See Parsing the Results for
+    // the basics of a callback function.
+  });
+}

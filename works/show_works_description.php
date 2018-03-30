@@ -10,7 +10,7 @@ $idwork=isset($_GET['idwork'])?$_GET['idwork']:NULL;
 $_SESSION['idwork']=$idwork;
 
 //OBTIENE DATOS DEL TRABAJO
-	$datos_trabajo=mysql_query("select proyectos.idproyecto, proyectos.nombre,proyectos.idconstructora,actividad FROM proyectos_actividades INNER JOIN proyectos ON proyectos_actividades.idproyecto=proyectos.idproyecto WHERE proyectos_actividades.idpat='".$idwork."' limit 0,1 ",$conexionestelar) or die(mysql_error());
+	$datos_trabajo=mysql_query("select proyectos.idproyecto, proyectos.nombre, proyectos.latitud, proyectos.longitud, proyectos.idconstructora,actividad FROM proyectos_actividades INNER JOIN proyectos ON proyectos_actividades.idproyecto=proyectos.idproyecto WHERE proyectos_actividades.idpat='".$idwork."' limit 0,1 ",$conexionestelar) or die(mysql_error());
 	$row_datos_trabajo=mysql_fetch_assoc($datos_trabajo);
 
 //OBTIENE DATOS DE LA CONTRUCTORA
@@ -74,7 +74,8 @@ else
 </table>
 <table style="margin-top:15px">
 	<tr>
-		<td class="btn_check" id="check"><a id="text_check" href="#" onclick="check(<?php echo $row_datos_trabajo['idproyecto'].', '.$_SESSION['idusuario'] ?>);" class="btn_text">Check In</a></td>
+		<td class="btn_check" id="check"><a id="text_check" href="#" onclick="validateDistance(<?php echo $row_datos_trabajo['idproyecto'].', '.$_SESSION['idusuario'] ?>);" class="btn_text">Check In</a></td>
+		<!--<td class="btn_check" id="check"><a id="text_check" href="#" onclick="validateDistance();" class="btn_text">Check In</a></td>-->
 	</tr>
 </table>
 <br><br>
@@ -117,6 +118,10 @@ else
 		else
 			echo '0';
 ?>">
+<input type="hidden" id="project_latitude" value="<?php echo $row_datos_trabajo['latitud'] ?>">
+<input type="hidden" id="project_longitude" value="<?php echo $row_datos_trabajo['longitud'] ?>">
+<input type="hidden" id="current_latitude" value="20.6326609">
+<input type="hidden" id="current_longitude" value="-103.2740618">
 </div><!--div main notifications-->
 <!--	<div id="div_imagen">
 	 <form method="post" id="formulario" enctype="multipart/form-data">
@@ -132,6 +137,9 @@ else
   </div> <!--div holder-->
 </body>
 <script type="text/javascript" src="../scripts/jquery-1.11.1.min.js"></script>
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcIdm-qEy0BmocjEoX2pSLrPNKntg4Psk">
+</script>
 <script type="text/javascript" src="scripts/works_ajax.js"></script>
 <script type="text/javascript" src="scripts/works.js"></script>
    <script>
