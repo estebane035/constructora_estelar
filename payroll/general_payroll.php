@@ -1,4 +1,5 @@
 <?php
+const FORMAT_ACCOUNTING = '_("$"* #,##0.00_);_("$"* \(#,##0.00\);_("$"* "-"??_);_(@_)';
 if (!isset($_GET["date"]))
 {
 	echo "Missing variable date";exit;
@@ -78,7 +79,8 @@ $objPHPExcel->getProperties()
 ->setDescription("General payroll for all projects and workers.")
 ->setKeywords("Payroll")
 ->setCategory("Payroll");
-$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(3);
+$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(3);
+$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(5);
 $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
 $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(8);
 $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(8);
@@ -143,7 +145,7 @@ $objPHPExcel->getActiveSheet()->getStyle("C2:I2")->applyFromArray(
             ),
             'borders' => array(
               'outline' => array(
-              'style' => PHPExcel_Style_Border::BORDER_THICK
+              'style' => PHPExcel_Style_Border::BORDER_THIN
               )
             )
         )
@@ -172,7 +174,7 @@ $objPHPExcel->getActiveSheet()->getStyle($columns[0].$row_count.":".$act.$row_co
         array(
             'fill' => array(
                 'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                'color' => array('rgb' => '88949B')
+                'color' => array('rgb' => 'BFC1C0')
             ),
             'alignment' => array(
               'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
@@ -197,6 +199,18 @@ $objPHPExcel->getActiveSheet()->setCellValue($columns[$column].$row_count, "Paym
 $row_count+=1;
 $sum_total = 0;
 foreach($workers as $worker){
+	$objPHPExcel->getActiveSheet()->getStyle($columns[0].$row_count.":".$columns[1].$row_count)->applyFromArray(
+          array(
+              'fill' => array(
+                  'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                  'color' => array('rgb' => 'DCDCDC')
+              ),
+              'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            )
+          )
+
+  );
   $objPHPExcel->getActiveSheet()->setCellValue($columns[0].$row_count, $worker['id_trabajador']);
   $objPHPExcel->getActiveSheet()->setCellValue($columns[1].$row_count, $worker['nombre']);
   $consulta = "SELECT id_proyecto, DATE_FORMAT(check_in, '%Y-%m-%d') AS date, IF((cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2)))>=5, (cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2))) -0.5, cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2))) AS total_horas, pago, (IF((cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2)))>=5, (cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2))) -0.5, cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2))) * pago) AS total FROM payroll WHERE check_in BETWEEN '".$from."' AND '".$to."' AND id_trabajador = ".$worker['id_trabajador'];
@@ -233,7 +247,9 @@ foreach($workers as $worker){
   }
   $sum_total += $total;
   $objPHPExcel->getActiveSheet()->setCellValue($columns[$count + 2].$row_count, $total_horas);
+	$objPHPExcel->getActiveSheet()->getStyle($columns[$count + 3].$row_count)->getNumberFormat()->setFormatCode(FORMAT_ACCOUNTING);
   $objPHPExcel->getActiveSheet()->setCellValue($columns[$count + 3].$row_count, $pago);
+	$objPHPExcel->getActiveSheet()->getStyle($columns[$count + 4].$row_count)->getNumberFormat()->setFormatCode(FORMAT_ACCOUNTING);
   $objPHPExcel->getActiveSheet()->setCellValue($columns[$count + 4].$row_count, $total);
   $row_count += 1;
 }
@@ -243,8 +259,8 @@ $objPHPExcel->getActiveSheet()->getStyle($columns[0]."4:".$act.($row_count-1))->
               'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
           	),
 						'borders' => array(
-          		'outline' => array(
-              'style' => PHPExcel_Style_Border::BORDER_THICK
+          		'allborders' => array(
+              'style' => PHPExcel_Style_Border::BORDER_THIN
           		)
       			)
         )
@@ -257,12 +273,13 @@ $objPHPExcel->getActiveSheet()->getStyle($columns[$count + 3].$row_count.":".$co
           	),
 						'borders' => array(
           		'outline' => array(
-              'style' => PHPExcel_Style_Border::BORDER_THICK
+              'style' => PHPExcel_Style_Border::BORDER_THIN
           		)
       			)
         )
 );
 $objPHPExcel->getActiveSheet()->setCellValue($columns[$count + 3].$row_count, "Total Payroll");
+$objPHPExcel->getActiveSheet()->getStyle($columns[$count + 4].$row_count)->getNumberFormat()->setFormatCode(FORMAT_ACCOUNTING);
 $objPHPExcel->getActiveSheet()->setCellValue($columns[$count + 4].$row_count, $sum_total);
 $index = $row_count;
 foreach($projects as $project){
@@ -286,8 +303,8 @@ $objPHPExcel->getActiveSheet()->getStyle($columns[0].$index.":".$columns[1].($ro
               'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
           	),
 						'borders' => array(
-          		'outline' => array(
-              'style' => PHPExcel_Style_Border::BORDER_THICK
+          		'allborders' => array(
+              'style' => PHPExcel_Style_Border::BORDER_THIN
           		)
       			)
         )
