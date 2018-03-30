@@ -1,4 +1,5 @@
 <?php
+const FORMAT_ACCOUNTING = '_("$"* #,##0.00_);_("$"* \(#,##0.00\);_("$"* "-"??_);_(@_)';
 session_start();
 if(!isset($_SESSION['idusuario']))
 	header("location:../includes/close_session/");
@@ -46,6 +47,26 @@ $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(13);
 $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(13);
 
 $row_count = 2;
+
+$objPHPExcel->getActiveSheet()->setCellValue('B'.$row_count, 'Export date: ');
+$objPHPExcel->getActiveSheet()->mergeCells("C2:E2");
+$objPHPExcel->getActiveSheet()->setCellValue('C'.$row_count, date('l jS \of F Y h:i:s A'));
+$objPHPExcel->getActiveSheet()->getStyle("B2:E2")->applyFromArray(
+        array(
+            'alignment' => array(
+              'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+          	),
+						'borders' => array(
+          		'outline' => array(
+              'style' => PHPExcel_Style_Border::BORDER_THICK
+          		)
+      			)
+        )
+);
+
+
+
+$row_count += 2;
 //$objPHPExcel->getActiveSheet()->mergeCells("B".$row_count.":E".$row_count);
 $objPHPExcel->getActiveSheet()->mergeCells("B".$row_count.":G".$row_count);
 $objPHPExcel->getActiveSheet()->getStyle("B".$row_count.":G".$row_count)->applyFromArray(
@@ -79,7 +100,19 @@ do
 	        )
 
 	);
-	$objPHPExcel->getActiveSheet()->setCellValue('B'.$row_count, $row_proyectos["nombre"]);
+	$objPHPExcel->getActiveSheet()->setCellValue('B'.$row_count, $row_proyectos["nombre"])
+		->getStyle("B".$row_count.":G".$row_count)->applyFromArray(
+		        array(
+		            'alignment' => array(
+		              'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+		          	),
+								'borders' => array(
+		          		'outline' => array(
+		              'style' => PHPExcel_Style_Border::BORDER_THIN
+		          		)
+		      			)
+		        )
+		);;
 
 	$row_count += 1;
 	$objPHPExcel->getActiveSheet()->setCellValue('B'.$row_count, 'Hours:');
@@ -88,6 +121,7 @@ do
 	$row_count += 1;
 	$objPHPExcel->getActiveSheet()->setCellValue('B'.$row_count, 'Total:');
 	$objPHPExcel->getActiveSheet()->setCellValue('C'.$row_count, $row_proyectos["total"]);
+	$objPHPExcel->getActiveSheet()->getStyle('C'.$row_count)->getNumberFormat()->setFormatCode(FORMAT_ACCOUNTING); 
 
 	$row_count -=2;
 	$objPHPExcel->getActiveSheet()->mergeCells("E".$row_count.":G".$row_count);
@@ -112,13 +146,25 @@ do
 		$objPHPExcel->getActiveSheet()->setCellValue('E'.$row_count, $row_workers["nombre"]);
 		$objPHPExcel->getActiveSheet()->setCellValue('F'.$row_count, $row_workers["horas"]." Hours");
 		$objPHPExcel->getActiveSheet()->setCellValue('G'.$row_count, $row_workers["total"]);
+		$objPHPExcel->getActiveSheet()->getStyle('G'.$row_count)->getNumberFormat()->setFormatCode(FORMAT_ACCOUNTING); 
 		$row_count += 1;
 	}
 
 	$row_count += 2;
 } while($row_proyectos=mysql_fetch_assoc($consulta));
 
-
+$objPHPExcel->getActiveSheet()->getStyle("B4:G".($row_count-2))->applyFromArray(
+        array(
+            'alignment' => array(
+              'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+          	),
+						'borders' => array(
+          		'outline' => array(
+              'style' => PHPExcel_Style_Border::BORDER_THICK
+          		)
+      			)
+        )
+);
 
 
 // Renombrar Hoja

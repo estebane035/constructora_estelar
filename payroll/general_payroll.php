@@ -133,6 +133,26 @@ else{
 
 $row_count = 2;
 
+$objPHPExcel->getActiveSheet()->setCellValue('C'.$row_count, 'Export date: ');
+$objPHPExcel->getActiveSheet()->mergeCells("D2:I2");
+$objPHPExcel->getActiveSheet()->setCellValue('D'.$row_count, date('l jS \of F Y h:i:s A'));
+$objPHPExcel->getActiveSheet()->getStyle("C2:I2")->applyFromArray(
+        array(
+            'alignment' => array(
+              'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            ),
+            'borders' => array(
+              'outline' => array(
+              'style' => PHPExcel_Style_Border::BORDER_THICK
+              )
+            )
+        )
+);
+
+
+
+$row_count += 2;
+
 $objPHPExcel->getActiveSheet()->mergeCells($columns[0].$row_count.":".$act.$row_count);
 $objPHPExcel->getActiveSheet()->getStyle($columns[0].$row_count.":".$act.$row_count)->applyFromArray(
     array(
@@ -217,7 +237,7 @@ foreach($workers as $worker){
   $objPHPExcel->getActiveSheet()->setCellValue($columns[$count + 4].$row_count, $total);
   $row_count += 1;
 }
-$objPHPExcel->getActiveSheet()->getStyle($columns[0]."2:".$act.($row_count-1))->applyFromArray(
+$objPHPExcel->getActiveSheet()->getStyle($columns[0]."4:".$act.($row_count-1))->applyFromArray(
         array(
             'alignment' => array(
               'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,

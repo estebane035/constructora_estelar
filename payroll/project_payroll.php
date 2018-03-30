@@ -73,9 +73,9 @@ $objPHPExcel = new PHPExcel();
 $objPHPExcel->getProperties()
 ->setCreator("Constructora Estelar")
 ->setLastModifiedBy("Constructora Estelar")
-->setTitle("General Payroll")
-->setSubject("General Payroll")
-->setDescription("General payroll for all projects and workers.")
+->setTitle("Project Payroll")
+->setSubject("Project Payroll")
+->setDescription("Project payroll for all worker's.")
 ->setKeywords("Payroll")
 ->setCategory("Payroll");
 $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(3);
@@ -133,6 +133,25 @@ else{
 
 $row_count = 2;
 
+$objPHPExcel->getActiveSheet()->setCellValue('C'.$row_count, 'Export date: ');
+$objPHPExcel->getActiveSheet()->mergeCells("D2:I2");
+$objPHPExcel->getActiveSheet()->setCellValue('D'.$row_count, date('l jS \of F Y h:i:s A'));
+$objPHPExcel->getActiveSheet()->getStyle("C2:I2")->applyFromArray(
+        array(
+            'alignment' => array(
+              'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            ),
+            'borders' => array(
+              'outline' => array(
+              'style' => PHPExcel_Style_Border::BORDER_THICK
+              )
+            )
+        )
+);
+
+
+
+$row_count += 2;
 $objPHPExcel->getActiveSheet()->mergeCells($columns[0].$row_count.":".$act.$row_count);
 $objPHPExcel->getActiveSheet()->getStyle($columns[0].$row_count.":".$act.$row_count)->applyFromArray(
     array(
@@ -146,7 +165,7 @@ $objPHPExcel->getActiveSheet()->getStyle($columns[0].$row_count.":".$act.$row_co
     )
 );
 
-$objPHPExcel->getActiveSheet()->setCellValue($columns[0].$row_count, 'GENERAL PAYROLL '.$from." to ".$to);
+$objPHPExcel->getActiveSheet()->setCellValue($columns[0].$row_count, 'PROYECT PAYROLL '.$from." to ".$to);
 $row_count+=1;
 $objPHPExcel->getActiveSheet()->getStyle($columns[0].$row_count.":".$act.$row_count)->applyFromArray(
         array(
@@ -238,6 +257,18 @@ foreach($projects as $project){
   $row_count+=1;
 }
 
+$objPHPExcel->getActiveSheet()->getStyle("B4:v".($row_count-1))->applyFromArray(
+        array(
+            'alignment' => array(
+              'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            ),
+            'borders' => array(
+              'outline' => array(
+              'style' => PHPExcel_Style_Border::BORDER_THICK
+              )
+            )
+        )
+);
 
 //SELECT py.nombre, SUM(IFNULL(HOUR(pr.total_horas),0)) as horas, SUM(IFNULL(HOUR(pr.total_horas),0) * pr.pago) as total FROM proyectos AS py INNER JOIN payroll as pr ON pr.id_proyecto = py.idproyecto WHERE pr.id_trabajador = 8 GROUP BY py.nombre
 
@@ -246,7 +277,7 @@ do{
 
 }while($j < $count);*/
 
-$objPHPExcel->getActiveSheet()->setTitle('General Payroll');
+$objPHPExcel->getActiveSheet()->setTitle('Project Payroll');
 
 // Establecer la hoja activa, para que cuando se abra el documento se muestre primero.
 $objPHPExcel->setActiveSheetIndex(0);
