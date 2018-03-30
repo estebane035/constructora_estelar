@@ -67,16 +67,16 @@ else
     <div id="central_exterior">
 	<?php include("../includes/menutitulo.php");?>
     <div id="central">
+			<table style="margin-top:15px">
+				<tr>
+					<td class="btn_check" id="check"><a id="text_check" href="#" onclick="validateDistance(<?php echo $row_datos_trabajo['idproyecto'].', '.$_SESSION['idusuario'] ?>);" class="btn_text">Check In</a></td>
+					<!--<td class="btn_check" id="check"><a id="text_check" href="#" onclick="validateDistance();" class="btn_text">Check In</a></td>-->
+				</tr>
+			</table><br><br>
 <table id="tablapadding5">
 	<tr><td class="negra">Project</td><td class="valor"><?php echo $row_datos_trabajo['nombre']?></td></tr>
     <tr><td class="negra">Constructor</td><td class="valor"><?php echo $row_datos_constructora['nombre']?></td></tr>
     <tr><td class="negra">Do</td><td class="valor"><?php echo $row_actividad['work']?></td></tr>
-</table>
-<table style="margin-top:15px">
-	<tr>
-		<td class="btn_check" id="check"><a id="text_check" href="#" onclick="validateDistance(<?php echo $row_datos_trabajo['idproyecto'].', '.$_SESSION['idusuario'] ?>);" class="btn_text">Check In</a></td>
-		<!--<td class="btn_check" id="check"><a id="text_check" href="#" onclick="validateDistance();" class="btn_text">Check In</a></td>-->
-	</tr>
 </table>
 <br><br>
 <div id="main_notifications">

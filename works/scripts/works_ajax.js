@@ -124,20 +124,20 @@ function check(id_proyecto, id_trabajador){
 					alert("Error");
 					break;
 				case "1":
-					alert("Entrada registrada");
+					alert("Registered entry");
 					$('#check').css("background", "#EA1111");
 					$('#check').css("border", "3px solid #EA1111");
 					$('#text_check').text("Check Out");
 					break;
 				case "2":
-					alert("Salida registrada");
+					alert("Registered check out");
 					$('#check').css("background", "#8AE943");
 					$('#check').css("border", "3px solid #8AE943");
 					$('#text_check').text("Check In");
 					//$('#text_check').prop('onclick',null).off('click');
 					break;
 				case "3":
-					alert("Ya se ha registrado la salida");
+					alert("An check out has already been recorded");
 					break;
 			}
 
@@ -163,13 +163,13 @@ function validateDistance(id_proyecto, id_trabajador){
     }, function (response, status) {
       //alert(JSON.stringify(response));
       if(status != 'OK'){
-        alert("No se pudo determinar la ubicación, vuelve a intentar");
+        alert("The location couldn't be determined, try again");
       }
       else{
         var distance = response.rows[0].elements[0].distance.value;
-        alert(distance + " metros");
+        alert(distance + " meters");
         if(distance > 100)
-          alert("Te encuentras muy lejos, no es posible realizar el check");
+          alert("Incorrect location. Please sign in on site");
         else
           check(id_proyecto, id_trabajador);
       }
@@ -188,7 +188,7 @@ function getLocation() {
       navigator.geolocation.getCurrentPosition(mostrarUbicacion);
   }
   else {
-      alert("¡Error! Este navegador no soporta la Geolocalización.");
+      alert("Error!, this browser doesn't support geolicalization.");
   }
   function mostrarUbicacion(position) {
       var times = position.timestamp;
