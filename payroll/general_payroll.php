@@ -199,7 +199,7 @@ $sum_total = 0;
 foreach($workers as $worker){
   $objPHPExcel->getActiveSheet()->setCellValue($columns[0].$row_count, $worker['id_trabajador']);
   $objPHPExcel->getActiveSheet()->setCellValue($columns[1].$row_count, $worker['nombre']);
-  $consulta = "SELECT id_proyecto, DATE_FORMAT(check_in, '%Y-%m-%d') AS date, cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2)) AS total_horas, pago, (cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2)) * pago) AS total FROM payroll WHERE check_in BETWEEN '".$from."' AND '".$to."' AND id_trabajador = ".$worker['id_trabajador'];
+  $consulta = "SELECT id_proyecto, DATE_FORMAT(check_in, '%Y-%m-%d') AS date, IF((cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2)))>=5, (cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2))) -0.5, cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2))) AS total_horas, pago, (IF((cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2)))>=5, (cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2))) -0.5, cast(time_to_sec(total_horas) / (60 * 60) as decimal(10, 2))) * pago) AS total FROM payroll WHERE check_in BETWEEN '".$from."' AND '".$to."' AND id_trabajador = ".$worker['id_trabajador'];
   $result = mysql_query($consulta);
   $checks = array();
   while($row = mysql_fetch_assoc($result))
