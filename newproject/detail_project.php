@@ -130,6 +130,7 @@ $titulo="PROJECT DETAIL";
 <title>Project Detail</title>
 <link href="../css/estelar.css" rel="stylesheet" type="text/css">
 <link href="css/projects.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../libs/datepicker/jquery.timepicker.css" />
 </head>
 
 <body>
@@ -149,7 +150,7 @@ $titulo="PROJECT DETAIL";
     	<tr><td class="negra">Start Date</td><td><?php echo $row_datos_proyecto['fechainicio']?></td><td class="negra">Finish Date</td><td><?php echo $row_datos_proyecto['fechatermino']?></td></tr>
     </table>
     <table id="tablapadding5">
-        <tr><td class="negra">Check in hour</td><td><?php echo date('g:i A', strtotime($row_datos_proyecto['hora_check_in'])); ?></td><td class="negra">Check in range</td><td><?php echo $row_datos_proyecto['rango']." meters"; ?></td></tr>
+        <tr><td class="negra">Check in hour</td><td><input onchange="actualizarRango(<?php echo $idproject; ?>);" type="text" class="time" name="hora_check_in" id="hora_check_in" value="<?php echo date('g:i A', strtotime($row_datos_proyecto['hora_check_in'])); ?>"></td><td class="negra">Check in range</td><td><input onchange="actualizarRango(<?php echo $idproject; ?>);" id="rango" type="number" name="rango" value="<?php echo $row_datos_proyecto['rango']; ?>"> Meters</td></tr>
     </table>
     <table id="tablapadding5">
     	<tr><td class="negra">Status</td><td><?php echo $a_status[$row_datos_proyecto['status']]?></td></tr>
@@ -245,6 +246,14 @@ $titulo="PROJECT DETAIL";
   </div> <!--div holder-->    
 </body>
 <script type="text/javascript" src="js/project_ajax.js"></script>
+<script type="text/javascript" src="../scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="../scripts/jquery-ui.js"></script>
 <script type="text/javascript" src="js/mapa_project_detail.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-Oq-WHG-knSvcEN8vdKDkWWPfERDV6TA&libraries=places&callback=initMap" async defer></script>
+<script type="text/javascript" src="../libs/datepicker/jquery.timepicker.js"></script>
+<script>
+  $( function() {
+    $('#hora_check_in').timepicker();
+  } );
+  </script>
 </html>
