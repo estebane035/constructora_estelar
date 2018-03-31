@@ -79,7 +79,7 @@ else
     <tr><td class="negra">Do</td><td class="valor"><?php echo $row_actividad['work']?></td></tr>
 </table>
 <br><br>
-<div id="main_notifications">
+<div id="main_notifications"><?php if($_SESSION['tipousuario'] != 3) { ?>
 <form name="save_works" id="save_works" method="post" action="acciones_form/save_work_form.php">
 <table>
 	<tr><td class="negra">Notifications</td></tr>
@@ -108,6 +108,7 @@ else
 	<?php }while($row_cat_notificaciones=mysql_fetch_assoc($cat_notificaciones));?>
 </table><br><br>
 </form>
+<?php } ?>
 <input type="hidden" id="check_state" name="check_state" value="<?php
 		if($exist){
 			if(empty($payroll['check_out']))
