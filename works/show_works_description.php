@@ -121,8 +121,8 @@ else
 ?>">
 <input type="hidden" id="project_latitude" value="<?php echo $row_datos_trabajo['latitud'] ?>">
 <input type="hidden" id="project_longitude" value="<?php echo $row_datos_trabajo['longitud'] ?>">
-<input type="hidden" id="current_latitude" value="20.6326609">
-<input type="hidden" id="current_longitude" value="-103.2740618">
+<input type="hidden" id="current_latitude" value="20.5943225">
+<input type="hidden" id="current_longitude" value="-100.3659308">
 <input type="hidden" id="range" value="<?php echo $row_datos_trabajo['rango'] ?>">
 </div><!--div main notifications-->
 <!--	<div id="div_imagen">

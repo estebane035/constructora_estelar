@@ -125,3 +125,20 @@ function actualizarPosicion(lat, lng, id){
     ajax.send("latitud="+lat+"&longitud="+lng+"&id="+id);
   }
 }
+
+function actualizarRango(id){
+  var rango = document.getElementById('rango').value;
+  var hora_check_in = document.getElementById('hora_check_in').value;
+    $.ajax({
+      url: "acciones_ajax/actualizar_rango.php",
+      type: "POST",
+      data: { rango: rango, hora_check_in:hora_check_in, id:id},
+      success: function(datos)
+      {
+        if (datos != "1")
+        {
+          alert(datos);
+        }
+      }
+    });
+}
