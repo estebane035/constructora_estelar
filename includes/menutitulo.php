@@ -3,5 +3,5 @@
     	<tr><td class="titulopagina"><?php echo $titulo?></td></tr>
     </table>
 </div>
-<div style="clear:both"></div>    
+<div style="clear:both"></div>
 <br><br>

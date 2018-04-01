@@ -93,8 +93,8 @@ $titulo="NEW PROJECT";
                                     </select>
         						</td></tr>
         <tr><td class="negra">Start Date</td><td><input type="text" class="fechas" name="fechainicio" id="fechainicio" size="9"></td></tr>
-        <tr><td class="negra">Finish Date</td><td><input type="text" class="fechas" name="fechatermino" id="fechatermino" size="9"></td></tr> 
-        <tr><td class="negra">Check-in Hour</td><td><input type="text" class="time" name="hora_check_in" id="hora_check_in" size="9"></td></tr>                        
+        <tr><td class="negra">Finish Date</td><td><input type="text" class="fechas" name="fechatermino" id="fechatermino" size="9"></td></tr>
+        <tr><td class="negra">Check-in Hour</td><td><input type="text" class="time" name="hora_check_in" id="hora_check_in" size="9"></td></tr>
     </table><br><br>
 
     <table>

@@ -1,23 +1,32 @@
 <div id="menulogo">
 	<div id="menu">
-		<?php 
+		<?php
 			if($_SESSION['tipousuario']==1) //administrador
 			{ ?>
 	        	<table style=" margin-top:15px; width:90%">
-	            	<tr><td class="menutd"><a href="../newproject/" class="menu_a">New Project</a></td>
-	                	<td class="menutd"><a href="../newproject/current_projects.php"  class="menu_a">Current Projects</a></td>
-	                    <td class="menutd"><a href="../newproject/notifications.php"  class="menu_a">Notifications</a></td>
-    	                <td class="menutd"><a href="../configuration/user_new.php"  class="menu_a">Users</a></td>
-	                    <td class="menutd"><a href="../configuration/new_constructor.php"  class="menu_a">Prime Contractor</a></td>
-	                    <td class="menutd"><a href="../configuration/new_contratist.php"  class="menu_a">Contractors</a></td>
-        	            <td class="menutd"><a href="../configuration/new_work.php"  class="menu_a">Works</a></td>
-            	        <td class="menutd"><a href="../configuration/workers_contact.php"  class="menu_a">Worker Contact</a></td>
-                        <td class="menutd"><a href="../configuration/cat_notifications.php"  class="menu_a">Notifications List</a></td>
-                        <td class="menutd"><a href="../payroll/"  class="menu_a">Payroll</a></td>
-	                </tr>
+	            	<tr>
+									<td class="menutd"><a href="../newproject/" class="menu_a">New Project</a></td>
+                	<td class="menutd"><a href="../newproject/current_projects.php"  class="menu_a">Current Projects</a></td>
+                  <td class="menutd"><a href="../newproject/notifications.php"  class="menu_a">Notifications</a></td>
+	                <td class="menutd"><a href="../configuration/user_new.php"  class="menu_a">Users</a></td>
+                  <td class="menutd"><a href="../configuration/new_constructor.php"  class="menu_a">Prime Contractor</a></td>
+                  <td class="menutd"><a href="../configuration/new_contratist.php"  class="menu_a">Contractors</a></td>
+    	            <td class="menutd"><a href="../configuration/new_work.php"  class="menu_a">Works</a></td>
+        	        <td class="menutd"><a href="../configuration/workers_contact.php"  class="menu_a">Worker Contact</a></td>
+	              </tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td class="menutd"><a href="../configuration/cat_notifications.php"  class="menu_a">Notifications List</a></td>
+									<td class="menutd"><a href="../payroll/"  class="menu_a">Payroll</a></td>
+								</tr>
     	        </table>
 		<?php	}
-			if($_SESSION['tipousuario']==4) //administrartivo 
+			if($_SESSION['tipousuario']==4) //administrartivo
 			{ ?>
 	        	<table style="margin-top:15px">
 	            	<tr><td class="menutd"><a href="../newproject/" class="menu_a">New Project</a></td>
