@@ -161,7 +161,7 @@ function validateDistance(id_proyecto, id_trabajador){
       avoidHighways: false,
       avoidTolls: false,
     }, function (response, status) {
-      //alert(JSON.stringify(response));
+      alert(JSON.stringify(response));
       if(status != 'OK'){
         alert("The location couldn't be determined, try again");
       }
@@ -190,6 +190,7 @@ function getLocation() {
   else {
       alert("Error!, this browser doesn't support geolicalization.");
   }
+
   function mostrarUbicacion(position) {
       var times = position.timestamp;
       latitud = position.coords.latitude;

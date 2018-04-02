@@ -22,8 +22,7 @@ mysql_select_db($database_conexionestelar,$conexionestelar);
 	$row_nombres_trabajadores=mysql_fetch_assoc($nombres_trabajadores);
 	$a_n_trabajadores[]="";
 	do
-	{ 
-		$a_n_trabajadores[$row_nombres_trabajadores['idusuario']]=$row_nombres_trabajadores['nombre'];
+	{ $a_n_trabajadores[$row_nombres_trabajadores['idusuario']]=$row_nombres_trabajadores['nombre'];
 	}while($row_nombres_trabajadores=mysql_fetch_assoc($nombres_trabajadores));
 
 //obtiene total los trabajadores asigndos a cada proyecto
@@ -33,14 +32,10 @@ mysql_select_db($database_conexionestelar,$conexionestelar);
 	if(mysql_num_rows($trabajadores))
 	{
 		do
-		{   if (isset($a_n_trabajadores[$row_trabajadores['trabajador']]))
-			{
-				if(isset($a_trabajadores[$row_trabajadores['idproyecto']]))
-				{$a_trabajadores[$row_trabajadores['idproyecto']].=" - ".$a_n_trabajadores[$row_trabajadores['trabajador']];}
-				else 
-				{$a_trabajadores[$row_trabajadores['idproyecto']]=$a_n_trabajadores[$row_trabajadores['trabajador']];}
-			}
-			
+		{   if(isset($a_trabajadores[$row_trabajadores['idproyecto']]))
+			{$a_trabajadores[$row_trabajadores['idproyecto']].=" - ".$a_n_trabajadores[$row_trabajadores['trabajador']];}
+			else
+			{$a_trabajadores[$row_trabajadores['idproyecto']]=$a_n_trabajadores[$row_trabajadores['trabajador']];}
 		}while($row_trabajadores=mysql_fetch_assoc($trabajadores));
 	}
 //obtiene notifaciones por ´rpyecto
