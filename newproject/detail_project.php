@@ -50,7 +50,7 @@ $idproject=isset($_GET['idp'])?$_GET['idp']:NULL;
 //obtien lista de actividaes del proyecto
 	$lista_actividades=mysql_query("select idpat,actividad,idtrabajador,status from proyectos_actividades where idproyecto='".$idproject."' and activo=1",$conexionestelar) or die(mysql_error());
 	$row_lista_actividades=mysql_fetch_assoc($lista_actividades);
-	
+
 //obtiene catalogo de trabajos
 	$cat_works=mysql_query("select idwork,work from cat_works",$conexionestelar) or die(mysql_error());
 	$row_cat_works=mysql_fetch_assoc($cat_works);
@@ -139,12 +139,12 @@ $titulo="PROJECT DETAIL";
     </div>
     <div style="clear:both"></div>
     <div id="central_exterior">
-	<?php include("../includes/menutitulo.php");?>    
+	<?php include("../includes/menutitulo.php");?>
     <div id="central">
     <table id="tablapadding5">
     	<tr><td class="negra">Name</td><td><?php echo $row_datos_proyecto['nombre']?></td></tr>
-        <tr><td class="negra">Description</td><td><?php echo $row_datos_proyecto['descripcion']?></td></tr>        
-    	<tr><td class="negra">Constructora</td><td><?php echo $row_constructora['nombre']?></td></tr>
+        <tr><td class="negra">Description</td><td><?php echo $row_datos_proyecto['descripcion']?></td></tr>
+    	<tr><td class="negra">Prime Contractor</td><td><?php echo $row_constructora['nombre']?></td></tr>
     </table>
     <table id="tablapadding5">
     	<tr><td class="negra">Start Date</td><td><?php echo $row_datos_proyecto['fechainicio']?></td><td class="negra">Finish Date</td><td><?php echo $row_datos_proyecto['fechatermino']?></td></tr>
@@ -165,7 +165,7 @@ $titulo="PROJECT DETAIL";
     	<table>
         	<tr><td><input type="button" value="CLOSE PROJECT" onClick="project.submit();"></td></tr>
     	</table>
-    </form>    
+    </form>
     <br>
     <table>
     	<tr><td class="subtitulo">Location (drag to update)</td></tr>
@@ -208,7 +208,7 @@ $titulo="PROJECT DETAIL";
 				{?>
                 <table id="tablapadding5" style="margin-left:30px">
                 	<tr><td class="negra">Contractor</td><td class="negra" colspan="4" style="text-align:center">Contacts</td></tr>
-                    <?php $c=0; 
+                    <?php $c=0;
 						do{ $nombre_contratista="";
 							if($c==0){$nombre_contratista=$a_contratistas[$row_contacto_contratista['idcontratista']];}?>
                     		<tr><td><?php echo $nombre_contratista?></td>
@@ -230,10 +230,10 @@ $titulo="PROJECT DETAIL";
                         <?php } ?>
                 </table>
                 <hr style="width:500px;" align="left" color="#999">
-            </div>            
+            </div>
             <div style="clear: both;" ></div>
         </div><div style="clear: both; height:30px" ></div>
-    <?php 
+    <?php
 		}while($row_lista_actividades=mysql_fetch_assoc($lista_actividades));
 	}?>
         </div><!--div central-->
@@ -243,7 +243,7 @@ $titulo="PROJECT DETAIL";
     <input type="hidden" id="lat" value="<?php echo $row_datos_proyecto['latitud']?>">
     <input type="hidden" id="lng" value="<?php echo $row_datos_proyecto['longitud']?>">
     <input type="hidden" id="id_proyecto" value="<?php echo $idproject?>">
-  </div> <!--div holder-->    
+  </div> <!--div holder-->
 </body>
 <script type="text/javascript" src="js/project_ajax.js"></script>
 <script type="text/javascript" src="../scripts/jquery-1.12.4.js"></script>

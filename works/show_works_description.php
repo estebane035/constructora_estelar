@@ -67,16 +67,27 @@ else
     <div id="central_exterior">
 	<?php include("../includes/menutitulo.php");?>
     <div id="central">
-			<table style="margin-top:15px">
-				<tr>
-					<td class="btn_check" id="check"><a id="text_check" href="#" onclick="validateDistance(<?php echo $row_datos_trabajo['idproyecto'].', '.$_SESSION['idusuario'] ?>);" class="btn_text">Check In</a></td>
-					<!--<td class="btn_check" id="check"><a id="text_check" href="#" onclick="validateDistance();" class="btn_text">Check In</a></td>-->
-				</tr>
-			</table><br><br>
+			<div id="div_boton">
+				<table style="margin-top:15px">
+					<tr>
+						<td class="btn_check" id="check" width="200px" height="100px" style="text-align:center;vertical-align:middle;"><a id="text_check" href="#" onclick="validateDistance(<?php if($idwork == '0') echo '0, '.$_SESSION['idusuario']; else echo $row_datos_trabajo['idproyecto'].', '.$_SESSION['idusuario'] ?>);" class="btn_text" style="font-size: 40px">Check In</a></td>
+						<!--<td class="btn_check" id="check"><a id="text_check" href="#" onclick="validateDistance();" class="btn_text">Check In</a></td>-->
+					</tr>
+				</table>
+			</div><br><br>
+			<div id="div_message" class="hidden">
+				<label id="text_message" class="message">Calculando tu localizacion...</label>
+			</div><br><br>
 <table id="tablapadding5">
+	<?php if($idwork != '0') { ?>
 	<tr><td class="negra">Project</td><td class="valor"><?php echo $row_datos_trabajo['nombre']?></td></tr>
     <tr><td class="negra">Constructor</td><td class="valor"><?php echo $row_datos_constructora['nombre']?></td></tr>
     <tr><td class="negra">Do</td><td class="valor"><?php echo $row_actividad['work']?></td></tr>
+	<?php } else { ?>
+		<tr><td class="negra">Project</td><td class="valor">Other non-registered project</td></tr>
+	    <tr><td class="negra">Constructor</td><td class="valor">Non-registered</td></tr>
+	    <tr><td class="negra">Do</td><td class="valor">Non-registered</td></tr>
+	<?php }?>
 </table>
 <br><br>
 <div id="main_notifications"><?php if($_SESSION['tipousuario'] != 3) { ?>
@@ -121,8 +132,8 @@ else
 ?>">
 <input type="hidden" id="project_latitude" value="<?php echo $row_datos_trabajo['latitud'] ?>">
 <input type="hidden" id="project_longitude" value="<?php echo $row_datos_trabajo['longitud'] ?>">
-<input type="hidden" id="current_latitude" value="20.5943225">
-<input type="hidden" id="current_longitude" value="-100.3659308">
+<input type="hidden" id="current_latitude" value="0">
+<input type="hidden" id="current_longitude" value="0">
 <input type="hidden" id="range" value="<?php echo $row_datos_trabajo['rango'] ?>">
 </div><!--div main notifications-->
 <!--	<div id="div_imagen">

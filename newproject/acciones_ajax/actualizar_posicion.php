@@ -1,6 +1,9 @@
 <?php
 require("../../conexionbd/conexionbase.php");
 require("../../conexionbd/conexionestelar.php");
+require("../../includes/account.php");
+
+mysql_select_db($database_conexionestelar,$conexionestelar);
 
 $latitud=isset($_POST['latitud'])?$_POST['latitud']:NULL;
 $longitud=isset($_POST['longitud'])?$_POST['longitud']:NULL;
