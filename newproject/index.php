@@ -85,7 +85,7 @@ $titulo="NEW PROJECT";
 	<table>
     	<tr><td class="negra">Name</td><td><input type="text" name="nombreproyecto" id="nombreproyecto"></td></tr>
         <tr><td class="negra">Description</td><td><textarea name="descripcionproyecto" id="descripcionroyecto"></textarea></td></tr>
-        <tr><td class="negra">Constructor</td><td><select name="constructoras" id="constructoras">
+        <tr><td class="negra">Prime Contractor</td><td><select name="constructoras" id="constructoras">
         								<option value="0"></option>
                                         <?php do{?>
                                         		<option value="<?php echo $row_constructoras['idconstructora']?>"><?php echo $row_constructoras['nombre']?></option>

@@ -9,7 +9,7 @@ mysql_select_db($database_conexionestelar,$conexionestelar);
 //OBTIENE LISTA DE PROYECTOS DEL TRABAJADOR
 	$proyectos_trabajador=mysql_query("select proyectos_actividades.idpat,proyectos.nombre,proyectos.idconstructora,actividad from proyectos_actividades INNER JOIN proyectos ON proyectos_actividades.idproyecto=proyectos.idproyecto WHERE proyectos_actividades.idtrabajador='".$_SESSION['idusuario']."' AND  proyectos.status=1 AND proyectos_actividades.status=1  ",$conexionestelar) or die(mysql_error());
 	$row_proyectos_trabajador=mysql_fetch_assoc($proyectos_trabajador);
-	
+
 //OBTIENE LISTADO DE CONSTRUCTORAS
 	$lista_constructoras=mysql_query("select idconstructora,nombre from constructoras ",$conexionestelar) or die(mysql_error());
 	$row_lista_contructoras=mysql_fetch_assoc($lista_constructoras);
@@ -33,7 +33,7 @@ $titulo="ASSIGNED PROJECTS";
 <head>
 <meta charset="iso-8859-1" />
 <title>Works To Do</title>
-<?php 
+<?php
 $detect=new Mobile_Detect();
 if($detect->isMobile()||$detect->isTablet())
 {?>
@@ -42,7 +42,7 @@ if($detect->isMobile()||$detect->isTablet())
 else
 {?>
 <link href="../css/estelar.css" rel="stylesheet" type="text/css">
-<?php	
+<?php
 }?>
 
 </head>
@@ -53,11 +53,11 @@ else
     </div>
     <div style="clear:both"></div>
     <div id="central_exterior">
-	<?php include("../includes/menutitulo.php");?>    
+	<?php include("../includes/menutitulo.php");?>
     <div id="central">
-<?php 
+<?php
 if(mysql_num_rows($proyectos_trabajador))
-{	
+{
 	do
 	{	?>
     	<div>
@@ -72,6 +72,15 @@ if(mysql_num_rows($proyectos_trabajador))
 		<?php
 	}while($row_proyectos_trabajador=mysql_fetch_assoc($proyectos_trabajador));
 }?>
+<div>
+<table onClick="show_works(0)"  id="tablapadding5"  style="cursor:pointer;">
+		<tr><td class="negra">Project:</td><td class="valor">Other non-registered project</td></tr>
+			<tr><td class="negra">Constructor</td><td class="valor">Non-registered</td></tr>
+		<tr><td class="negra">Work to Do</td><td class="valor">Non-registered</td></tr>
+	</table>
+	</div>
+	<hr style="width:300px;" align="left" color="#666666">
+	<br />
 <br />
 <div id="work_description">
 </div>

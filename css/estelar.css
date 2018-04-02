@@ -44,3 +44,9 @@ hmtl, body, #holder{ height:100%; width:100%; margin:0 auto; font-size:12px; fon
 .cursor{ cursor:pointer}
 
 .hidden{ display: none; }
+.message {
+		font-size : 20px;
+    cursor: pointer;
+    color: #ED1B1B;
+    display: block;
+}

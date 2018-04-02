@@ -1,9 +1,10 @@
 // JavaScript Document
 $(document).ready(function() {
-  getLocation();
-	check_state = $('#check_state').val();
+  check_state = $('#check_state').val();
 	switch (check_state) {
 		case '0':
+      //$('#div_message').removeClass('hidden');
+      //$('#div_boton').addClass('hidden');
 			break;
 		case '1':
 			$('#check').css("background", "#EA1111");
@@ -17,6 +18,7 @@ $(document).ready(function() {
 			//$('#text_check').prop('onclick',null).off('click');
 			break;
 	}
+  getLocation();
 });
 function objetoAjax(){
 	var xmlhttp=false;
@@ -124,13 +126,13 @@ function check(id_proyecto, id_trabajador){
 					alert("Error");
 					break;
 				case "1":
-					alert("Registered entry");
+					alert("Check in successful");
 					$('#check').css("background", "#EA1111");
 					$('#check').css("border", "3px solid #EA1111");
 					$('#text_check').text("Check Out");
 					break;
 				case "2":
-					alert("Registered check out");
+					alert("Check out successful");
 					$('#check').css("background", "#8AE943");
 					$('#check').css("border", "3px solid #8AE943");
 					$('#text_check').text("Check In");
@@ -149,6 +151,16 @@ function check(id_proyecto, id_trabajador){
 }
 
 function validateDistance(id_proyecto, id_trabajador){
+  if($('#project_latitude').val() == 0){
+    if(id_proyecto == 0){
+      check(id_proyecto, id_trabajador);
+      return;
+    }
+    else{
+      alert("Posición del proyecto incorrecta, comunicate con el administador de la página");
+      return;
+    }
+  }
   var origin = new google.maps.LatLng($('#current_latitude').val(), $('#current_longitude').val());
   var destiny = new google.maps.LatLng($('#project_latitude').val(), $('#project_longitude').val());
   var service = new google.maps.DistanceMatrixService();
@@ -167,7 +179,7 @@ function validateDistance(id_proyecto, id_trabajador){
       }
       else{
         var distance = response.rows[0].elements[0].distance.value;
-        alert(distance + " meters");
+        //alert(distance + " meters");
         if(distance > $('#range').val())
           alert("Incorrect location. Please sign in on site");
         else
@@ -181,7 +193,6 @@ function validateDistance(id_proyecto, id_trabajador){
   });
 }
 function getLocation() {
-
   var latitud;
   var longitud;
   if (navigator.geolocation) {
@@ -198,6 +209,8 @@ function getLocation() {
       var exactitud = position.coords.accuracy;
       $('#current_latitude').val(latitud);
       $('#current_longitude').val(longitud);
+      $('#div_boton').removeClass('hidden');
+      $('#div_message').addClass('hidden');
       //document.getElementById('current_latitude').value = latitud;
       //document.getElementById('current_longitude').value = longitud;
       //alert("Timestamp: " + times + "\nLatitud: " + latitud + "\nLongitud: " + longitud + "\nAltura en metros: " + altitud + "\nExactitud: " + exactitud);

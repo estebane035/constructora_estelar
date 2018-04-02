@@ -62,19 +62,19 @@ $titulo="CURRENT PROJECTS";
     </div>
     <div style="clear:both"></div>
     <div id="central_exterior">
-	<?php include("../includes/menutitulo.php");?>    
+	<?php include("../includes/menutitulo.php");?>
     <div id="central">
 	<?php if(mysql_num_rows($lista_proyectos))
 	{?>
     <table id="tablapadding5center">
-    	<thead><th>Project</th><th>Description</th><th>Start Date</th><th>Finish Date</th><th>Constructor</th><th>Workers</th><th>Notifications</th><th></th></thead>
+    	<thead><th>Project</th><th>Description</th><th>Start Date</th><th>Finish Date</th><th>Prime Contractor</th><th>Workers</th><th>Notifications</th><th></th></thead>
         <tbody>
         	<?php do{
 						$t_trabajadores="";
 						if(isset($a_trabajadores[$row_lista_proyectos['idproyecto']]))
 							{$t_trabajadores=$a_trabajadores[$row_lista_proyectos['idproyecto']];}
 						$t_notificaciones="";
-						if(isset($a_notificaciones[$row_lista_proyectos['idproyecto']]))	
+						if(isset($a_notificaciones[$row_lista_proyectos['idproyecto']]))
 							{$t_notificaciones=$a_notificaciones[$row_lista_proyectos['idproyecto']];}
 				?>
         	<tr>
@@ -94,7 +94,7 @@ $titulo="CURRENT PROJECTS";
     </div><!--div central-->
     <div style="clear:both"></div>
     </div><!--div central_exterior-->
-    <div style="clear:both"></div>    
-  </div> <!--div holder-->    
+    <div style="clear:both"></div>
+  </div> <!--div holder-->
 </body>
 </html>
