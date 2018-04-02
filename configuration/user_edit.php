@@ -49,7 +49,7 @@ $titulo="EDIT USER";
                             	<option value="<?php echo $key?>" <?php echo $seledted?>><?php echo $valor?></option>
                             <?php }?>
     					 </select></td></tr>
-    <tr id="tr-salario" <?php if ($row_cuenta['idtipousuario'] != '3') echo "style='display:none;'" ?>><td>Salary</td><td><input type="number" name="salario" id="salario" value="<?php echo $row_cuenta['pago']?>"></td></tr>
+    <tr id="tr-salario"><td>Salary</td><td><input type="number" name="salario" id="salario" value="<?php echo $row_cuenta['pago']?>"></td></tr>
     <tr><td>Active</td><td><select name="active" id="active">
     										<?php foreach($a_activo as $key=>$valor)
 											{ $selected="";

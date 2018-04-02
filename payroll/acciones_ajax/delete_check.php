@@ -1,6 +1,7 @@
 <?php 
 require("../../conexionbd/conexionbase.php");
 require("../../conexionbd/conexionestelar.php");
+mysql_select_db($database_conexionestelar,$conexionestelar);
 $id = $_POST['id'];
 if (!is_null($id) && $id > 0)
 {

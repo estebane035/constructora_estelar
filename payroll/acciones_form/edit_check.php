@@ -2,6 +2,8 @@
 require("../../conexionbd/conexionbase.php");
 require("../../conexionbd/conexionestelar.php");
 
+mysql_select_db($database_conexionestelar,$conexionestelar);
+
 $check_in = date($_POST['fecha_in']." ".date("H:i", strtotime($_POST['check_in'])));
 $check_out = date($_POST['fecha_out']." ".date("H:i", strtotime($_POST['check_out'])));
 $pago = isset($_POST['pago'])?$_POST['pago']:0;
