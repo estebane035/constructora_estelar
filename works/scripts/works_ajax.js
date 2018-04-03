@@ -3,18 +3,26 @@ $(document).ready(function() {
   check_state = $('#check_state').val();
 	switch (check_state) {
 		case '0':
-      //$('#div_message').removeClass('hidden');
-      //$('#div_boton').addClass('hidden');
+            document.getElementById("div_message").classList.remove("hidden");
+            //$('#div_message').removeClass('hidden');
+            document.getElementById("div_boton").classList.add("hidden");
+            //$('#div_boton').addClass('hidden');
 			break;
 		case '1':
-			$('#check').css("background", "#EA1111");
-			$('#check').css("border", "3px solid #EA1111");
-			$('#text_check').text("Check Out");
+            document.getElementById("check").style.background = "#EA1111";
+            document.getElementById("check").style.border = "3px solid #EA1111";
+            document.getElementById("text_check").innerHTML = "Check Out";
+			//$('#check').css("background", "#EA1111");
+			//$('#check').css("border", "3px solid #EA1111");
+			//$('#text_check').text("Check Out");
 			break;
 		case '2':
-			$('#check').css("background", "#8AE943");
-			$('#check').css("border", "3px solid #8AE943");
-			$('#text_check').text("Check In");
+            document.getElementById("check").style.background = "#8AE943";
+            document.getElementById("check").style.border = "3px solid #8AE943";
+            document.getElementById("text_check").innerHTML = "Check In";
+			//$('#check').css("background", "#8AE943");
+			//$('#check').css("border", "3px solid #8AE943");
+			//$('#text_check').text("Check In");
 			//$('#text_check').prop('onclick',null).off('click');
 			break;
 	}
@@ -157,7 +165,7 @@ function validateDistance(id_proyecto, id_trabajador){
       return;
     }
     else{
-      alert("Posición del proyecto incorrecta, comunicate con el administador de la página");
+      alert("Incorrect project position, communicate with the administrator of the page");
       return;
     }
   }
@@ -173,7 +181,7 @@ function validateDistance(id_proyecto, id_trabajador){
       avoidHighways: false,
       avoidTolls: false,
     }, function (response, status) {
-      alert(JSON.stringify(response));
+      //alert(JSON.stringify(response));
       if(status != 'OK'){
         alert("The location couldn't be determined, try again");
       }
@@ -201,7 +209,6 @@ function getLocation() {
   else {
       alert("Error!, this browser doesn't support geolicalization.");
   }
-
   function mostrarUbicacion(position) {
       var times = position.timestamp;
       latitud = position.coords.latitude;
@@ -210,10 +217,32 @@ function getLocation() {
       var exactitud = position.coords.accuracy;
       $('#current_latitude').val(latitud);
       $('#current_longitude').val(longitud);
-      $('#div_boton').removeClass('hidden');
-      $('#div_message').addClass('hidden');
+      document.getElementById("div_message").classList.add("hidden");
+      document.getElementById("div_boton").classList.remove("hidden");
+      //changeButton();
       //document.getElementById('current_latitude').value = latitud;
       //document.getElementById('current_longitude').value = longitud;
       //alert("Timestamp: " + times + "\nLatitud: " + latitud + "\nLongitud: " + longitud + "\nAltura en metros: " + altitud + "\nExactitud: " + exactitud);
   }
+}
+
+function changeButton(){
+    check_state = $('#check_state').val();
+	switch (check_state) {
+		case '0':
+      $('#div_message').removeClass('hidden');
+      $('#div_boton').addClass('hidden');
+			break;
+		case '1':
+			$('#check').css("background", "#EA1111");
+			$('#check').css("border", "3px solid #EA1111");
+			$('#text_check').text("Check Out");
+			break;
+		case '2':
+			$('#check').css("background", "#8AE943");
+			$('#check').css("border", "3px solid #8AE943");
+			$('#text_check').text("Check In");
+			//$('#text_check').prop('onclick',null).off('click');
+			break;
+	}
 }
