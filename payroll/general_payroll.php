@@ -62,8 +62,10 @@ $resultado = mysql_query($consulta);
 $projects = array();
 while($row = mysql_fetch_assoc($resultado))
   $projects[] = $row;
-foreach($projects as &$project)
+foreach($projects as &$project){
   $project['color'] = randomColor(100, 255);
+	$project['used'] = false;
+}
 unset($project);
 
 //print_r($projects);
@@ -81,7 +83,7 @@ $objPHPExcel->getProperties()
 ->setCategory("Payroll");
 $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(3);
 $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(5);
-$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
+$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(30);
 $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(8);
 $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(8);
 $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(8);
@@ -228,10 +230,13 @@ foreach($workers as $worker){
     $checkOfDay = date("d", strtotime($check['date']));
     if($checkOfDay > 15)
       $checkOfDay -= 15;
-      foreach($projects as $project){
-        if($project['idproyecto'] == $check['id_proyecto'])
+      foreach($projects as &$project){
+        if($project['idproyecto'] == $check['id_proyecto']){
           $color = $project['color'];
-        }
+					$project['used'] = true;
+				}
+      }
+			unset($project);
       $objPHPExcel->getActiveSheet()->getStyle($columns[$checkOfDay + 1].$row_count)->applyFromArray(
               array(
                   'fill' => array(
@@ -283,19 +288,21 @@ $objPHPExcel->getActiveSheet()->getStyle($columns[$count + 4].$row_count)->getNu
 $objPHPExcel->getActiveSheet()->setCellValue($columns[$count + 4].$row_count, $sum_total);
 $index = $row_count;
 foreach($projects as $project){
-  $objPHPExcel->getActiveSheet()->getStyle($columns[0].$row_count)->applyFromArray(
-          array(
-              'fill' => array(
-                  'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                  'color' => array('rgb' => $project['color'])
-              ),
-              'alignment' => array(
-                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-            )
-          )
-  );
-  $objPHPExcel->getActiveSheet()->setCellValue($columns[1].$row_count, $project['nombre']);
-  $row_count+=1;
+	if($project['used'] == true){
+	  $objPHPExcel->getActiveSheet()->getStyle($columns[0].$row_count)->applyFromArray(
+	          array(
+	              'fill' => array(
+	                  'type' => PHPExcel_Style_Fill::FILL_SOLID,
+	                  'color' => array('rgb' => $project['color'])
+	              ),
+	              'alignment' => array(
+	                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+	            )
+	          )
+	  );
+	  $objPHPExcel->getActiveSheet()->setCellValue($columns[1].$row_count, $project['nombre']);
+	  $row_count+=1;
+	}
 }
 $objPHPExcel->getActiveSheet()->getStyle($columns[0].$index.":".$columns[1].($row_count-1))->applyFromArray(
         array(
