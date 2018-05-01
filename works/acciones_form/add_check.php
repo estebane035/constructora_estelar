@@ -14,7 +14,8 @@
   $now = mysql_fetch_assoc($resultado);
   $now = $now['date'];
 
-  $consulta = "SELECT * FROM payroll WHERE id_trabajador = ".$id_trabajador." AND DATE_FORMAT(check_in, '%Y-%c-%d') = DATE_FORMAT('".$now."', '%Y-%c-%d')";
+  //$consulta = "SELECT * FROM payroll WHERE id_trabajador = ".$id_trabajador." AND DATE_FORMAT(check_in, '%Y-%c-%d') = DATE_FORMAT('".$now."', '%Y-%c-%d')";
+  $consulta = "SELECT * FROM payroll WHERE id_trabajador = ".$id_trabajador." AND check_out IS NULL";
   $payroll = mysql_query($consulta) or die(mysql_error());
   if(mysql_num_rows($payroll)!=0){
     $payroll = mysql_fetch_assoc($payroll);
@@ -35,13 +36,15 @@
         if($hora == $check_date)
           echo "Horas iguales";*/
         if($hora > $check_date && $id_proyecto != '0')
-          $consulta = "UPDATE payroll SET check_out = '".$now."', total_horas = SEC_TO_TIME(TIMESTAMPDIFF(SECOND, '".$check_out_date." ".$row['hora_check_in']."', IF('".$now."' > (DATE_FORMAT('".$now."', '%Y-%m-%d %H:20:00')), DATE_FORMAT('".$now."', '%Y-%m-%d %H:%i:%s'), (DATE_FORMAT('".$now."', '%Y-%m-%d %H:00:00'))))) WHERE DATE_FORMAT(check_in, '%Y-%c-%d') = DATE_FORMAT('".$now."', '%Y-%c-%d') AND id_trabajador = ".$id_trabajador;
+          //$consulta = "UPDATE payroll SET check_out = '".$now."' - INTERVAL 13 MINUTE, total_horas = SEC_TO_TIME(TIMESTAMPDIFF(SECOND, '".$check_out_date." ".$row['hora_check_in']."', '".$now."' - INTERVAL 13 MINUTE)) WHERE DATE_FORMAT(check_in, '%Y-%c-%d') = DATE_FORMAT('".$now."', '%Y-%c-%d') AND id_trabajador = ".$id_trabajador;
+          $consulta = "UPDATE payroll SET check_out = '".$now."' - INTERVAL 13 MINUTE, total_horas = SEC_TO_TIME(TIMESTAMPDIFF(SECOND, '".$check_out_date." ".$row['hora_check_in']."', '".$now."' - INTERVAL 13 MINUTE)) WHERE check_out IS NULL AND id_trabajador = ".$id_trabajador;
           //echo $hora." mayor a ".$check_date.", llegas temprano";
         else
-          $consulta = "UPDATE payroll SET check_out = '".$now."', total_horas = SEC_TO_TIME(TIMESTAMPDIFF(SECOND, check_in, IF('".$now."' > (DATE_FORMAT('".$now."', '%Y-%m-%d %H:20:00')), DATE_FORMAT('".$now."', '%Y-%m-%d %H:%i:%s'), (DATE_FORMAT('".$now."', '%Y-%m-%d %H:00:00'))))) WHERE DATE_FORMAT(check_in, '%Y-%c-%d') = DATE_FORMAT('".$now."', '%Y-%c-%d') AND id_trabajador =".$id_trabajador;
+          //$consulta = "UPDATE payroll SET check_out = '".$now."' - INTERVAL 13 MINUTE, total_horas = SEC_TO_TIME(TIMESTAMPDIFF(SECOND, check_in, '".$now."' - INTERVAL 13 MINUTE)) WHERE DATE_FORMAT(check_in, '%Y-%c-%d') = DATE_FORMAT('".$now."', '%Y-%c-%d') AND id_trabajador =".$id_trabajador;
+          $consulta = "UPDATE payroll SET check_out = '".$now."' - INTERVAL 13 MINUTE, total_horas = SEC_TO_TIME(TIMESTAMPDIFF(SECOND, check_in, '".$now."' - INTERVAL 13 MINUTE)) WHERE check_out IS NULL AND id_trabajador =".$id_trabajador;
           //echo $hora." menor a ".$check_date.", llegas tarde";
       //echo $consulta;
-      -//Registrar salida
+      //Registrar salida
       //$consulta = "UPDATE payroll SET check_out = now(), total_horas = SEC_TO_TIME(TIMESTAMPDIFF(SECOND, check_in, now())) WHERE DATE_FORMAT(check_in, '%Y-%c-%d') = DATE_FORMAT(now(), '%Y-%c-%d') AND id_trabajador = ".$id_trabajador;
       $result = mysql_query($consulta) or die(mysql_error());
       if($result)
@@ -53,11 +56,17 @@
       echo 3;
   }
   else{
-    $consulta = "INSERT INTO payroll (id_proyecto, id_trabajador, check_in, pago) VALUES(".$id_proyecto.", ".$id_trabajador.", '".$now."', (SELECT pago FROM vista_trabajadores WHERE vista_trabajadores.idusuario = ".$id_trabajador." ))";
+    $consulta = "SELECT * FROM payroll WHERE id_trabajador = ".$id_trabajador." AND DATE_FORMAT(check_out, '%Y-%c-%d') = DATE_FORMAT('".$now."', '%Y-%c-%d')";
     $result = mysql_query($consulta) or die(mysql_error());
-    if($result)
-      echo 1;
-    else
-      echo 0;
+    if(mysql_num_rows($result)>1)
+      echo 3;
+    else{
+      $consulta = "INSERT INTO payroll (id_proyecto, id_trabajador, check_in, pago) VALUES(".$id_proyecto.", ".$id_trabajador.", '".$now."' + INTERVAL 13 MINUTE, (SELECT pago FROM vista_trabajadores WHERE vista_trabajadores.idusuario = ".$id_trabajador." ))";
+      $result = mysql_query($consulta) or die(mysql_error());
+      if($result)
+        echo 1;
+      else
+        echo 0;
+    }
   }
 ?>

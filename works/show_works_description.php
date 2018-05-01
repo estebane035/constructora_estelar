@@ -31,7 +31,8 @@ $_SESSION['idwork']=$idwork;
 	$actividad=mysql_query("select work from cat_works where idwork='".$row_datos_trabajo['actividad']."' limit 0,1 ",$conexionestelar) or die(mysql_error());
 	$row_actividad=mysql_fetch_assoc($actividad);
 
-	$consulta = "SELECT * FROM payroll WHERE id_trabajador = ".$_SESSION['idusuario']." AND DATE_FORMAT(check_in, '%Y-%c-%d') = DATE_FORMAT(now(), '%Y-%c-%d')";
+	//$consulta = "SELECT * FROM payroll WHERE id_trabajador = ".$_SESSION['idusuario']." AND DATE_FORMAT(check_in, '%Y-%c-%d') = DATE_FORMAT(now(), '%Y-%c-%d')";
+	$consulta = "SELECT * FROM payroll WHERE id_trabajador = ".$_SESSION['idusuario']." AND check_out IS NULL";
 	$payroll = mysql_query($consulta);
 	if(mysql_num_rows($payroll)!=0)
 		$exist = true;
@@ -90,7 +91,7 @@ else
 	<?php }?>
 </table>
 <br><br>
-<div id="main_notifications"><?php if($_SESSION['tipousuario'] != 3) { ?>
+<div id="main_notifications">
 <form name="save_works" id="save_works" method="post" action="acciones_form/save_work_form.php">
 <table>
 	<tr><td class="negra">Notifications</td></tr>
@@ -119,7 +120,6 @@ else
 	<?php }while($row_cat_notificaciones=mysql_fetch_assoc($cat_notificaciones));?>
 </table><br><br>
 </form>
-<?php } ?>
 <input type="hidden" id="check_state" name="check_state" value="<?php
 		if($exist){
 			if(empty($payroll['check_out']))
